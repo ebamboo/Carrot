@@ -12,9 +12,13 @@
 		ADF36DFC27510F79008BA1DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADF36DFA27510F79008BA1DB /* Main.storyboard */; };
 		ADF36DFE27510F7B008BA1DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADF36DFD27510F7B008BA1DB /* Assets.xcassets */; };
 		ADF36E0127510F7B008BA1DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADF36DFF27510F7B008BA1DB /* LaunchScreen.storyboard */; };
+		DA0195F7760AEACEB4198AD0 /* Pods_Carrot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA2187293594F192E2AFBB9 /* Pods_Carrot.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01615ADE153C43FC73D6ECBF /* Pods-Carrot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrot.release.xcconfig"; path = "Target Support Files/Pods-Carrot/Pods-Carrot.release.xcconfig"; sourceTree = "<group>"; };
+		03830C1278EC4B03942288AD /* Pods-Carrot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrot.debug.xcconfig"; path = "Target Support Files/Pods-Carrot/Pods-Carrot.debug.xcconfig"; sourceTree = "<group>"; };
+		6DA2187293594F192E2AFBB9 /* Pods_Carrot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Carrot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADF36DF127510F79008BA1DB /* Carrot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carrot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADF36DF427510F79008BA1DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADF36DF827510F79008BA1DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,17 +33,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA0195F7760AEACEB4198AD0 /* Pods_Carrot.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F573DB12231552EC0106A19 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				03830C1278EC4B03942288AD /* Pods-Carrot.debug.xcconfig */,
+				01615ADE153C43FC73D6ECBF /* Pods-Carrot.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		ADF36DE827510F79008BA1DB = {
 			isa = PBXGroup;
 			children = (
 				ADF36DF327510F79008BA1DB /* Carrot */,
 				ADF36DF227510F79008BA1DB /* Products */,
+				5F573DB12231552EC0106A19 /* Pods */,
+				BCA9E700F8F6D9310E0BA2B7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +81,14 @@
 			path = Carrot;
 			sourceTree = "<group>";
 		};
+		BCA9E700F8F6D9310E0BA2B7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6DA2187293594F192E2AFBB9 /* Pods_Carrot.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -71,9 +96,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADF36E0527510F7B008BA1DB /* Build configuration list for PBXNativeTarget "Carrot" */;
 			buildPhases = (
+				8BD43C38E7BDB776A5B4A5B8 /* [CP] Check Pods Manifest.lock */,
 				ADF36DED27510F79008BA1DB /* Sources */,
 				ADF36DEE27510F79008BA1DB /* Frameworks */,
 				ADF36DEF27510F79008BA1DB /* Resources */,
+				AF3F1914917FB43D5E37CB08 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -129,6 +156,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8BD43C38E7BDB776A5B4A5B8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Carrot-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AF3F1914917FB43D5E37CB08 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Carrot/Pods-Carrot-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Carrot/Pods-Carrot-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Carrot/Pods-Carrot-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		ADF36DED27510F79008BA1DB /* Sources */ = {
@@ -280,6 +349,7 @@
 		};
 		ADF36E0627510F7B008BA1DB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 03830C1278EC4B03942288AD /* Pods-Carrot.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -309,6 +379,7 @@
 		};
 		ADF36E0727510F7B008BA1DB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 01615ADE153C43FC73D6ECBF /* Pods-Carrot.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
