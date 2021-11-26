@@ -12,6 +12,9 @@
 		ADF36DFC27510F79008BA1DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADF36DFA27510F79008BA1DB /* Main.storyboard */; };
 		ADF36DFE27510F7B008BA1DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADF36DFD27510F7B008BA1DB /* Assets.xcassets */; };
 		ADF36E0127510F7B008BA1DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADF36DFF27510F7B008BA1DB /* LaunchScreen.storyboard */; };
+		ADF36E0A275125B8008BA1DB /* FlowImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36E09275125B8008BA1DB /* FlowImageView.swift */; };
+		ADF36E0C27512667008BA1DB /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36E0B27512667008BA1DB /* HTTPRequest.swift */; };
+		ADF36E0E275126AB008BA1DB /* UIView+HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36E0D275126AB008BA1DB /* UIView+HUD.swift */; };
 		DA0195F7760AEACEB4198AD0 /* Pods_Carrot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA2187293594F192E2AFBB9 /* Pods_Carrot.framework */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +29,9 @@
 		ADF36DFD27510F7B008BA1DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ADF36E0027510F7B008BA1DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ADF36E0227510F7B008BA1DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ADF36E09275125B8008BA1DB /* FlowImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowImageView.swift; sourceTree = "<group>"; };
+		ADF36E0B27512667008BA1DB /* HTTPRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
+		ADF36E0D275126AB008BA1DB /* UIView+HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+HUD.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +52,6 @@
 				03830C1278EC4B03942288AD /* Pods-Carrot.debug.xcconfig */,
 				01615ADE153C43FC73D6ECBF /* Pods-Carrot.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -71,6 +76,7 @@
 		ADF36DF327510F79008BA1DB /* Carrot */ = {
 			isa = PBXGroup;
 			children = (
+				ADF36E082751259F008BA1DB /* Utils */,
 				ADF36DF427510F79008BA1DB /* AppDelegate.swift */,
 				ADF36DF827510F79008BA1DB /* ViewController.swift */,
 				ADF36DFA27510F79008BA1DB /* Main.storyboard */,
@@ -79,6 +85,16 @@
 				ADF36E0227510F7B008BA1DB /* Info.plist */,
 			);
 			path = Carrot;
+			sourceTree = "<group>";
+		};
+		ADF36E082751259F008BA1DB /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				ADF36E0D275126AB008BA1DB /* UIView+HUD.swift */,
+				ADF36E0B27512667008BA1DB /* HTTPRequest.swift */,
+				ADF36E09275125B8008BA1DB /* FlowImageView.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		BCA9E700F8F6D9310E0BA2B7 /* Frameworks */ = {
@@ -205,6 +221,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADF36DF927510F79008BA1DB /* ViewController.swift in Sources */,
+				ADF36E0C27512667008BA1DB /* HTTPRequest.swift in Sources */,
+				ADF36E0E275126AB008BA1DB /* UIView+HUD.swift in Sources */,
+				ADF36E0A275125B8008BA1DB /* FlowImageView.swift in Sources */,
 				ADF36DF527510F79008BA1DB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
