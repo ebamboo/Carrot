@@ -34,21 +34,19 @@ class FlowImageView: UICollectionView {
     var minItemSpacing: CGFloat = 10.0
     /// line 最小间距
     var minLineSpacing: CGFloat = 10.0
-    ///
-    /// item size
-    /// 每次将要布局 FlowImageView 时都要指明 item size
+    /// 最大 image 数量范围：[1,  ∞]
+    var maxImageCount = 9
+    /// 每行 item 数量
+    /// 如果设置了 itemSIze 则忽略该属性
+    var lineItemCount = 3
+    /// 每次将要布局 FlowImageView 时都会试图读取 itemSize
+    /// 如果没有设置则根据 lineItemCount 进行计算
     /// 并且设定之后要执行 reloadData() 使之生效
     /// 一般在 superView 中的 layoutSubviews() 方法
     /// 或者 UIViewController 中的 viewWillLayoutSubviews() 方法进行设定
     /// 可根据实际情况决定是否需要在 viewDidLayoutSubviews() 方法中进行设定
-    ///
-    private var itemSize: (() -> CGSize)?
-    func itemSize(_ size: @escaping () -> CGSize) {
-        itemSize = size
-    }
+    var itemSize: CGSize?
     
-    /// 最大 image 数量范围：[1,  ∞]
-    var maxImageCount = 9
     /// 直接赋值会刷新 collection view
     /// 赋值时要注意不能超过最大限制数量
     /// 不可以在外部添加和删除 item
@@ -153,7 +151,13 @@ extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return itemSize?() ?? CGSize.zero
+        if itemSize == nil {
+            let usableWidth = collectionView.bounds.size.width - CGFloat(lineItemCount - 1) * minItemSpacing - degeInsets.left - degeInsets.right
+            let side = usableWidth / CGFloat(lineItemCount)
+            return CGSize(width: side, height: side)
+        } else {
+            return itemSize!
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
