@@ -31,14 +31,14 @@ class FlowImageView: UICollectionView {
     /// 区域内间距
     var degeInsets: UIEdgeInsets = UIEdgeInsets.zero
     /// item 最小间距
-    var minItemSpacing: CGFloat = 10.0
+    @IBInspectable var minItemSpacing: CGFloat = 10.0
     /// line 最小间距
-    var minLineSpacing: CGFloat = 10.0
+    @IBInspectable var minLineSpacing: CGFloat = 10.0
     /// 最大 image 数量范围：[1,  ∞]
-    var maxImageCount = 9
+    @IBInspectable var maxImageCount: Int = 9
     /// 每行 item 数量
     /// 如果设置了 itemSIze 则忽略该属性
-    var lineItemCount = 3
+    @IBInspectable var lineItemCount: Int = 3
     /// 每次将要布局 FlowImageView 时都会试图读取 itemSize
     /// 如果没有设置则根据 lineItemCount 进行计算
     /// 并且设定之后要执行 reloadData() 使之生效
@@ -48,9 +48,9 @@ class FlowImageView: UICollectionView {
     var itemSize: CGSize?
     
     /// 是否具备添加图片功能
-    var addable = false
+    @IBInspectable var addable: Bool = false
     /// 添加按钮图片
-    var addableImage: UIImage? = UIImage(named: "bb-image-addition")
+    @IBInspectable var addableImage: UIImage? = UIImage(named: "bb-image-addition")
     ///
     /// 点击添加按钮回调
     ///
@@ -76,9 +76,9 @@ class FlowImageView: UICollectionView {
     }
     
     /// 是否具备删除图片功能
-    var deletable = false
+    @IBInspectable var deletable: Bool = false
     /// 删除按钮图片
-    var deletableImage: UIImage? = UIImage(named: "bb-image-deletion")
+    @IBInspectable var deletableImage: UIImage? = UIImage(named: "bb-image-deletion")
     
     ///
     /// 点击图片回调
@@ -107,7 +107,11 @@ class FlowImageView: UICollectionView {
         register(FlowImageViewCell.self, forCellWithReuseIdentifier: "FlowImageViewCell")
     }
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        self.collectionViewLayout = UICollectionViewFlowLayout()
+        dataSource = self
+        delegate = self
+        register(FlowImageViewCell.self, forCellWithReuseIdentifier: "FlowImageViewCell")
     }
 
 }
@@ -152,9 +156,16 @@ extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if itemSize == nil {
-            let usableWidth = collectionView.bounds.size.width - CGFloat(lineItemCount - 1) * minItemSpacing - degeInsets.left - degeInsets.right
-            let side = usableWidth / CGFloat(lineItemCount)
-            return CGSize(width: side, height: side)
+            switch direction {
+            case .vertical:
+                let usableWidth = collectionView.bounds.size.width - CGFloat(lineItemCount - 1) * minItemSpacing - degeInsets.left - degeInsets.right
+                let side = usableWidth / CGFloat(lineItemCount) - 1
+                return CGSize(width: side, height: side)
+            default:
+                let usableHeight = collectionView.bounds.size.height - CGFloat(lineItemCount - 1) * minItemSpacing - degeInsets.top - degeInsets.bottom
+                let side = usableHeight / CGFloat(lineItemCount) - 1
+                return CGSize(width: side, height: side)
+            }
         } else {
             return itemSize!
         }
