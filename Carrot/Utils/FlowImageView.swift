@@ -47,19 +47,10 @@ class FlowImageView: UICollectionView {
     /// 可根据实际情况决定是否需要在 viewDidLayoutSubviews() 方法中进行设定
     var itemSize: CGSize?
     
-    /// 直接赋值会刷新 collection view
-    /// 赋值时要注意不能超过最大限制数量
-    /// 不可以在外部添加和删除 item
-    var images: [ImageModel] = [] {
-        didSet {
-            reloadData()
-        }
-    }
-    
     /// 是否具备添加图片功能
     var addable = false
     /// 添加按钮图片
-    var addableImage: UIImage?
+    var addableImage: UIImage? = UIImage(named: "bb-image-addition")
     ///
     /// 点击添加按钮回调
     ///
@@ -87,7 +78,7 @@ class FlowImageView: UICollectionView {
     /// 是否具备删除图片功能
     var deletable = false
     /// 删除按钮图片
-    var deletableImage: UIImage?
+    var deletableImage: UIImage? = UIImage(named: "bb-image-deletion")
     
     ///
     /// 点击图片回调
@@ -95,6 +86,15 @@ class FlowImageView: UICollectionView {
     private var clickImageHandler: ((_ index: Int) -> Void)?
     func clickImageHandler(_ handler: @escaping (_ index: Int) -> Void) {
         clickImageHandler = handler
+    }
+    
+    /// 直接赋值会刷新 collection view
+    /// 赋值时要注意不能超过最大限制数量
+    /// 不可以在外部添加和删除 item
+    var images: [ImageModel] = [] {
+        didSet {
+            reloadData()
+        }
     }
     
     ///
