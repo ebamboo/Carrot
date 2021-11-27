@@ -9,14 +9,19 @@ import UIKit
 
 class FlowImageViewController: UIViewController {
 
-    @IBOutlet weak var testView: FlowImageView!
+//    @IBOutlet weak var testView: FlowImageView!
+    var testView: FlowImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "FlowImageView"
         
+        testView = FlowImageView.init(frame: .zero)
+        testView.backgroundColor = .red
+        view.addSubview(testView)
         testView.direction = .horizontal
         testView.maxImageCount = 16
+        
 
         // 添加功能
         testView.addable = true
@@ -42,12 +47,9 @@ class FlowImageViewController: UIViewController {
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-//        testView.frame = view.bounds
-//        let usable = view.bounds.size.width - 10 * 3
-//        let width = usable / 4.0
-//        let height = width * 3 / 4
-//        testView.itemSize = CGSize(width: width, height: height)
-        testView.reloadData()
+        let frame = CGRect(x: view.safeAreaInsets.left, y: view.safeAreaInsets.top, width: view.bounds.size.width - view.safeAreaInsets.left - view.safeAreaInsets.right, height: view.bounds.size.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom)
+        testView.frame = frame
+        testView.updateLayout()
     }
-
+    
 }

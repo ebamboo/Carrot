@@ -46,6 +46,11 @@ class FlowImageView: UICollectionView {
     /// 或者 UIViewController 中的 viewWillLayoutSubviews() 方法进行设定
     /// 可根据实际情况决定是否需要在 viewDidLayoutSubviews() 方法中进行设定
     var itemSize: CGSize?
+    /// 刷新布局
+    /// 改变 frame、lineItemCount、itemSize 之后调用该方法使布局立即生效
+    func updateLayout() {
+        collectionViewLayout.invalidateLayout()
+    }
     
     /// 是否具备添加图片功能
     @IBInspectable var addable: Bool = false
@@ -108,7 +113,9 @@ class FlowImageView: UICollectionView {
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.collectionViewLayout = UICollectionViewFlowLayout()
+        if self.collectionViewLayout is UICollectionViewFlowLayout {} else {
+            self.collectionViewLayout = UICollectionViewFlowLayout()
+        }
         dataSource = self
         delegate = self
         register(FlowImageViewCell.self, forCellWithReuseIdentifier: "FlowImageViewCell")
@@ -157,13 +164,13 @@ extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegate, U
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if itemSize == nil {
             switch direction {
-            case .vertical:
-                let usableWidth = collectionView.bounds.size.width - CGFloat(lineItemCount - 1) * minItemSpacing - degeInsets.left - degeInsets.right
-                let side = usableWidth / CGFloat(lineItemCount) - 1
-                return CGSize(width: side, height: side)
-            default:
+            case .horizontal:
                 let usableHeight = collectionView.bounds.size.height - CGFloat(lineItemCount - 1) * minItemSpacing - degeInsets.top - degeInsets.bottom
                 let side = usableHeight / CGFloat(lineItemCount) - 1
+                return CGSize(width: side, height: side)
+            default:
+                let usableWidth = collectionView.bounds.size.width - CGFloat(lineItemCount - 1) * minItemSpacing - degeInsets.left - degeInsets.right
+                let side = usableWidth / CGFloat(lineItemCount) - 1
                 return CGSize(width: side, height: side)
             }
         } else {
