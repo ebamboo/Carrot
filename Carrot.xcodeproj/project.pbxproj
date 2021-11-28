@@ -81,13 +81,13 @@
 			isa = PBXGroup;
 			children = (
 				ADF36E082751259F008BA1DB /* Utils */,
+				ADF36E21275370A4008BA1DB /* Test */,
 				ADF36DF427510F79008BA1DB /* AppDelegate.swift */,
 				ADF36DF827510F79008BA1DB /* ViewController.swift */,
 				ADF36DFA27510F79008BA1DB /* Main.storyboard */,
 				ADF36DFD27510F7B008BA1DB /* Assets.xcassets */,
 				ADF36DFF27510F7B008BA1DB /* LaunchScreen.storyboard */,
 				ADF36E0227510F7B008BA1DB /* Info.plist */,
-				ADF36E0F2751F560008BA1DB /* FlowImageView */,
 			);
 			path = Carrot;
 			sourceTree = "<group>";
@@ -109,6 +109,14 @@
 				ADF36E112751F585008BA1DB /* FlowImageViewController.xib */,
 			);
 			path = FlowImageView;
+			sourceTree = "<group>";
+		};
+		ADF36E21275370A4008BA1DB /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				ADF36E0F2751F560008BA1DB /* FlowImageView */,
+			);
+			path = Test;
 			sourceTree = "<group>";
 		};
 		BCA9E700F8F6D9310E0BA2B7 /* Frameworks */ = {

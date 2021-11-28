@@ -36,7 +36,7 @@ class FlowImageView: UICollectionView {
     @IBInspectable var minLineSpacing: CGFloat = 10.0
     /// 最大 image 数量范围：[1,  ∞]
     @IBInspectable var maxImageCount: Int = 9
-    /// 每行 item 数量
+    /// 每行 item 数量范围：[1, 99]
     /// 如果设置了 itemSIze 则忽略该属性
     @IBInspectable var lineItemCount: Int = 3
     /// 每次将要布局 FlowImageView 时都会试图读取 itemSize
