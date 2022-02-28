@@ -13,12 +13,6 @@ import KakaJSON
 /// 服务器返回的数据 data 类型
 enum DataType {
     case any
-    case bool
-    case int
-    case double
-    case string
-    case dictionary
-    case array
     case model(modelType: Convertible.Type)
     case modelArray(modelType: Convertible.Type)
 }
@@ -39,16 +33,22 @@ protocol HTTP {
     var responseDataType: DataType { get }
 }
 
-// MARK: - HTTPRequest public
+// MARK: - HTTPRequest 公共方法
 
 struct HTTPRequest {
+    /// 响应对象模型
+    struct ResponseModel: Convertible {
+        var success: Bool!
+        var code: Int!
+        var message: String?
+        var data: Any?
+    }
     /// 网络任务错误
     struct MessageData {
         private (set) var rawValue: String
         static let networkError = MessageData(rawValue: "未能连接服务器")
         static let exceptionData = MessageData(rawValue: "服务器返回的数据异常")
         static let noneMessage = MessageData(rawValue: "服务器未返回错误说明")
-        static let noneData = MessageData(rawValue: "服务器未返回数据")
     }
     /// 网络任务结果
     enum Result {
@@ -95,7 +95,7 @@ extension HTTPRequest {
     ) -> DataRequest {
         printRequest(api: api)
         let task = AF.request(api.url, method: api.method, parameters: api.parameters, encoding: api.encoding, headers: HTTPHeaders(api.headers))
-        task.responseJSON { response in
+        task.responseData { response in
             printResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result)
             parseResponse(api: api, headers: response.response?.allHeaderFields as? [String: Any], result: response.result, cancelHandler: cancelHandler, completionHandler: completionHandler)
         }
@@ -126,10 +126,6 @@ extension HTTPRequest {
             }
         }, to: api.url, headers: HTTPHeaders(api.headers))
         task.uploadProgress(closure: progressHandler)
-        task.responseJSON { response in
-            printResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result)
-            parseResponse(api: api, headers: response.response?.allHeaderFields as? [String: Any], result: response.result, cancelHandler: cancelHandler, completionHandler: completionHandler)
-        }
         return task
     }
     /// download request
@@ -167,15 +163,11 @@ extension HTTPRequest {
             }
         }
         task.downloadProgress(closure: progressHandler)
-        task.responseJSON { response in
-            printResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result)
-            parseResponse(api: api, headers: response.response?.allHeaderFields as? [String: Any], result: response.result, cancelHandler: cancelHandler, completionHandler: completionHandler)
-        }
         return task
     }
 }
 
-// MARK: - HTTPRequest private
+// MARK: - HTTPRequest 私有方法
 
 /// print debug information
 extension HTTPRequest {
@@ -192,7 +184,7 @@ extension HTTPRequest {
         #endif
     }
     /// 打印响应数据
-    static func printResponse(headers: [String: Any]?, result: Swift.Result<Any, AFError>) {
+    static func printResponse(headers: [String: Any]?, result: Swift.Result<Data, AFError>) {
         #if DEBUG
         if headers == nil {
             print("responseHeaders = null")
@@ -202,10 +194,13 @@ extension HTTPRequest {
             print("responseHeaders = \(responseHeadersString)")
         }
         switch result {
-        case .success(let json):
-            let responseJSONData = try! JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
-            let responseJSONString = String(data: responseJSONData, encoding: .utf8)!
-            print("responseJSON = \(responseJSONString)")
+        case .success(let responseData):
+            guard let responseModel = responseData.kj.model(ResponseModel.self) else {
+                print("responseError = 解析响应对象失败")
+                return
+            }
+            let responseString = responseModel.kj.JSONString(prettyPrinted: true)
+            print("responseJSON = \(responseString)")
         case .failure(let error):
             print("responseError = \(error.localizedDescription)")
         }
@@ -218,73 +213,37 @@ extension HTTPRequest {
     static func parseResponse(
         api: HTTP,
         headers: [String: Any]?,
-        result: Swift.Result<Any, AFError>,
+        result: Swift.Result<Data, AFError>,
         cancelHandler: CancelHandler? = nil,
         completionHandler: @escaping CompletionHandler
     ) {
         switch result {
-        case .success(let json):
-            let responseJSON = json as! [String: Any]
-            guard let success = responseJSON["success"] as? Bool else {
+        case .success(let responseData):
+            // 解析 responseModel
+            guard let responseModel = responseData.kj.model(ResponseModel.self) else {
                 completionHandler(.failure(message: .exceptionData))
                 return
             }
-            if success {
+            // 解析 data 数据
+            if responseModel.success {
                 switch api.responseDataType {
                 case .any:
-                    let data = responseJSON["data"]
-                    completionHandler(.success(data: data, headers: headers))
-                case .bool:
-                    guard let data = responseJSON["data"] as? Bool else {
-                        completionHandler(.failure(message: .exceptionData))
-                        return
-                    }
-                    completionHandler(.success(data: data, headers: headers))
-                case .int:
-                    guard let data = responseJSON["data"] as? Int else {
-                        completionHandler(.failure(message: .exceptionData))
-                        return
-                    }
-                    completionHandler(.success(data: data, headers: headers))
-                case .double:
-                    guard let data = responseJSON["data"] as? Double else {
-                        completionHandler(.failure(message: .exceptionData))
-                        return
-                    }
-                    completionHandler(.success(data: data, headers: headers))
-                case .string:
-                    guard let data = responseJSON["data"] as? String else {
-                        completionHandler(.failure(message: .exceptionData))
-                        return
-                    }
-                    completionHandler(.success(data: data, headers: headers))
-                case .dictionary:
-                    guard let data = responseJSON["data"] as? [String: Any] else {
-                        completionHandler(.failure(message: .exceptionData))
-                        return
-                    }
-                    completionHandler(.success(data: data, headers: headers))
-                case .array:
-                    guard let data = responseJSON["data"] as? [Any] else {
-                        completionHandler(.failure(message: .exceptionData))
-                        return
-                    }
-                    completionHandler(.success(data: data, headers: headers))
+                    completionHandler(.success(data: responseModel.data, headers: headers))
                 case .model(modelType: let modelType):
-                    guard let data = responseJSON["data"] as? [String: Any] else {
+                    guard let data = responseModel.data as? [String: Any] else {
                         completionHandler(.failure(message: .exceptionData))
                         return
                     }
                     completionHandler(.success(data: model(from: data, type: modelType), headers: headers))
                 case .modelArray(modelType: let modelType):
-                    guard let data = responseJSON["data"] as? [Any] else {
+                    guard let data = responseModel.data as? [Any] else {
                         completionHandler(.failure(message: .exceptionData))
                         return
                     }
                     completionHandler(.success(data: modelArray(from: data, type: modelType), headers: headers))
                 }
             } else {
-                guard let message = responseJSON["message"] as? String else {
+                guard let message = responseModel.message else {
                     completionHandler(.failure(message: .noneMessage))
                     return
                 }
