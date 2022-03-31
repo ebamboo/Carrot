@@ -5,6 +5,7 @@
 //  Created by ebamboo on 2021/11/19.
 //
 
+import Foundation
 import Alamofire
 
 // MARK: - HTTPRequest 协议
