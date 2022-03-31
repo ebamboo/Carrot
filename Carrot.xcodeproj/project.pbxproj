@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ADBBCB9D27F57CB50036AD89 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBBCB9C27F57CB50036AD89 /* Parse.swift */; };
 		ADF36DF527510F79008BA1DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36DF427510F79008BA1DB /* AppDelegate.swift */; };
 		ADF36DF927510F79008BA1DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36DF827510F79008BA1DB /* ViewController.swift */; };
 		ADF36DFC27510F79008BA1DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADF36DFA27510F79008BA1DB /* Main.storyboard */; };
 		ADF36DFE27510F7B008BA1DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADF36DFD27510F7B008BA1DB /* Assets.xcassets */; };
 		ADF36E0127510F7B008BA1DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADF36DFF27510F7B008BA1DB /* LaunchScreen.storyboard */; };
 		ADF36E0A275125B8008BA1DB /* FlowImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36E09275125B8008BA1DB /* FlowImageView.swift */; };
-		ADF36E0C27512667008BA1DB /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36E0B27512667008BA1DB /* HTTPRequest.swift */; };
+		ADF36E0C27512667008BA1DB /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36E0B27512667008BA1DB /* HTTP.swift */; };
 		ADF36E0E275126AB008BA1DB /* UIView+HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36E0D275126AB008BA1DB /* UIView+HUD.swift */; };
 		ADF36E122751F585008BA1DB /* FlowImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36E102751F585008BA1DB /* FlowImageViewController.swift */; };
 		ADF36E132751F585008BA1DB /* FlowImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADF36E112751F585008BA1DB /* FlowImageViewController.xib */; };
@@ -24,6 +25,7 @@
 		01615ADE153C43FC73D6ECBF /* Pods-Carrot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrot.release.xcconfig"; path = "Target Support Files/Pods-Carrot/Pods-Carrot.release.xcconfig"; sourceTree = "<group>"; };
 		03830C1278EC4B03942288AD /* Pods-Carrot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrot.debug.xcconfig"; path = "Target Support Files/Pods-Carrot/Pods-Carrot.debug.xcconfig"; sourceTree = "<group>"; };
 		6DA2187293594F192E2AFBB9 /* Pods_Carrot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Carrot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADBBCB9C27F57CB50036AD89 /* Parse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
 		ADF36DF127510F79008BA1DB /* Carrot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carrot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADF36DF427510F79008BA1DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADF36DF827510F79008BA1DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -32,7 +34,7 @@
 		ADF36E0027510F7B008BA1DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ADF36E0227510F7B008BA1DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADF36E09275125B8008BA1DB /* FlowImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowImageView.swift; sourceTree = "<group>"; };
-		ADF36E0B27512667008BA1DB /* HTTPRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
+		ADF36E0B27512667008BA1DB /* HTTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
 		ADF36E0D275126AB008BA1DB /* UIView+HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+HUD.swift"; sourceTree = "<group>"; };
 		ADF36E102751F585008BA1DB /* FlowImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowImageViewController.swift; sourceTree = "<group>"; };
 		ADF36E112751F585008BA1DB /* FlowImageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlowImageViewController.xib; sourceTree = "<group>"; };
@@ -96,7 +98,8 @@
 			isa = PBXGroup;
 			children = (
 				ADF36E0D275126AB008BA1DB /* UIView+HUD.swift */,
-				ADF36E0B27512667008BA1DB /* HTTPRequest.swift */,
+				ADF36E0B27512667008BA1DB /* HTTP.swift */,
+				ADBBCB9C27F57CB50036AD89 /* Parse.swift */,
 				ADF36E09275125B8008BA1DB /* FlowImageView.swift */,
 			);
 			path = Utils;
@@ -244,10 +247,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADF36DF927510F79008BA1DB /* ViewController.swift in Sources */,
-				ADF36E0C27512667008BA1DB /* HTTPRequest.swift in Sources */,
+				ADF36E0C27512667008BA1DB /* HTTP.swift in Sources */,
 				ADF36E122751F585008BA1DB /* FlowImageViewController.swift in Sources */,
 				ADF36E0E275126AB008BA1DB /* UIView+HUD.swift in Sources */,
 				ADF36E0A275125B8008BA1DB /* FlowImageView.swift in Sources */,
+				ADBBCB9D27F57CB50036AD89 /* Parse.swift in Sources */,
 				ADF36DF527510F79008BA1DB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

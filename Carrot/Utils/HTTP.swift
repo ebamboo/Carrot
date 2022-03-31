@@ -1,23 +1,15 @@
 //
-//  HTTPRequest.swift
+//  HTTP.swift
 //  SwiftDK
 //
 //  Created by ebamboo on 2021/11/19.
 //
 
 import Alamofire
-import KakaJSON
 
-// MARK: - HTTP 协议
+// MARK: - HTTPRequest 协议
 
-/// 服务器返回的数据 data 类型
-enum DataType {
-    case any
-    case model(modelType: Convertible.Type)
-    case modelArray(modelType: Convertible.Type)
-}
-
-protocol HTTP {
+protocol HTTPRequest {
     /// method
     var method: HTTPMethod { get }
     /// url
@@ -28,37 +20,23 @@ protocol HTTP {
     var encoding: ParameterEncoding { get }
     /// parameters
     var parameters: [String: Any] { get }
-    /// 标明服务器返回的数据类型
-    /// 用于解析服务器返回的数据
-    var responseDataType: DataType { get }
 }
 
-// MARK: - HTTPRequest 公共方法
+// MARK: - HTTP 公共方法
 
-struct HTTPRequest {
-    /// 响应对象模型
-    struct ResponseModel: Convertible {
-        var success: Bool!
-        var code: Int!
-        var message: String?
-        var data: Any?
-    }
-    /// 网络任务错误
-    struct MessageData {
-        private (set) var rawValue: String
-        static let networkError = MessageData(rawValue: "未能连接服务器")
-        static let exceptionData = MessageData(rawValue: "服务器返回的数据异常")
-        static let noneMessage = MessageData(rawValue: "服务器未返回错误说明")
-    }
+struct HTTP {
     /// 网络任务结果
     enum Result {
+        struct MessageData {
+            private (set) var rawValue: String
+            static let networkError = MessageData(rawValue: "未能连接服务器")
+            static let exceptionData = MessageData(rawValue: "服务器返回的数据异常")
+            static let noneMessage = MessageData(rawValue: "服务器未返回错误说明")
+        }
         case success(data: Any?, headers: [String: Any]?)
         case failure(message: MessageData)
+        case cancel
     }
-    /// 网络任务取消回调
-    typealias CancelHandler = () -> Void
-    /// 网络任务结束回调
-    typealias CompletionHandler = (_ result: Result) -> Void
     /// 上传文件数据模型
     struct UploadFileModel {
         /// 文件资源本身使用 URL 或者 Data 表示
@@ -82,36 +60,32 @@ struct HTTPRequest {
     }
     /// 下载文件存储路径配置
     typealias Destination = (_ fileName: String) -> URL
-    /// 任务进度回调
-    typealias ProgressHandler = (_ progress: Progress) -> Void
 }
 
-extension HTTPRequest {
+extension HTTP {
     /// data request
-    static func dataRequest(
-        api: HTTP,
-        cancelHandler: CancelHandler? = nil,
-        completionHandler: @escaping CompletionHandler
+    @discardableResult static func dataRequest(
+        _ request: HTTPRequest,
+        completionHandler: @escaping (_ result: Result) -> Void
     ) -> DataRequest {
-        printRequest(api: api)
-        let task = AF.request(api.url, method: api.method, parameters: api.parameters, encoding: api.encoding, headers: HTTPHeaders(api.headers))
+        printRequest(request)
+        let task = AF.request(request.url, method: request.method, parameters: request.parameters, encoding: request.encoding, headers: HTTPHeaders(request.headers))
         task.responseData { response in
             printResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result)
-            parseResponse(api: api, headers: response.response?.allHeaderFields as? [String: Any], result: response.result, cancelHandler: cancelHandler, completionHandler: completionHandler)
+            parseResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result, completionHandler: completionHandler)
         }
         return task
     }
     /// upload request
-    static func uploadRequest(
-        api: HTTP,
+    @discardableResult static func uploadRequest(
+        _ request: HTTPRequest,
         files: [UploadFileModel],
-        progressHandler: @escaping ProgressHandler,
-        cancelHandler: CancelHandler? = nil,
-        completionHandler: @escaping CompletionHandler
+        progressHandler: @escaping (_ progress: Progress) -> Void = { _ in },
+        completionHandler: @escaping (_ result: Result) -> Void
     ) -> UploadRequest {
-        printRequest(api: api)
+        printRequest(request)
         let task = AF.upload(multipartFormData: { formData in
-            for (key, value) in api.parameters as! [String: String] {
+            for (key, value) in request.parameters as! [String: String] {
                 formData.append(value.data(using: .utf8)!, withName: key)
             }
             for file in files {
@@ -124,23 +98,22 @@ extension HTTPRequest {
                     continue
                 }
             }
-        }, to: api.url, headers: HTTPHeaders(api.headers))
+        }, to: request.url, headers: HTTPHeaders(request.headers))
         task.uploadProgress(closure: progressHandler)
         return task
     }
     /// download request
-    static func downloadRequest(
-        api: HTTP,
-        to destination: Destination? = nil,
+    @discardableResult static func downloadRequest(
+        _ request: HTTPRequest,
         with resumeData: Data? = nil,
-        progressHandler: @escaping ProgressHandler,
-        cancelHandler: CancelHandler? = nil,
-        completionHandler: @escaping CompletionHandler
+        to destination: Destination? = nil,
+        progressHandler: @escaping (_ progress: Progress) -> Void = { _ in },
+        completionHandler: @escaping (_ result: Result) -> Void
     ) -> DownloadRequest {
-        printRequest(api: api)
+        printRequest(request)
         let task: DownloadRequest!
         if resumeData == nil {
-            task = AF.download(api.url, parameters: api.parameters, headers: HTTPHeaders(api.headers), to:  { temporaryURL, _ in
+            task = AF.download(request.url, parameters: request.parameters, headers: HTTPHeaders(request.headers), to:  { temporaryURL, _ in
                 if destination == nil {
                     let fileName = "Alamofire_\(temporaryURL.lastPathComponent)"
                     let fileURL = temporaryURL.deletingLastPathComponent().appendingPathComponent(fileName)
@@ -167,18 +140,17 @@ extension HTTPRequest {
     }
 }
 
-// MARK: - HTTPRequest 私有方法
+// MARK: - HTTP 私有方法
 
-/// print debug information
-extension HTTPRequest {
+private extension HTTP {
     /// 打印请求数据
-    static func printRequest(api: HTTP) {
+    static func printRequest(_ request: HTTPRequest) {
         #if DEBUG
-        print("url = \(api.url)")
-        let headersData = try! JSONSerialization.data(withJSONObject: api.headers, options: .prettyPrinted)
+        print("url = \(request.url)")
+        let headersData = try! JSONSerialization.data(withJSONObject: request.headers, options: .prettyPrinted)
         let headersString = String(data: headersData, encoding: .utf8)!
         print("headers = \(headersString)")
-        let parametersData = try! JSONSerialization.data(withJSONObject: api.parameters, options: .prettyPrinted)
+        let parametersData = try! JSONSerialization.data(withJSONObject: request.parameters, options: .prettyPrinted)
         let parametersString = String(data: parametersData, encoding: .utf8)!
         print("parameters = \(parametersString)")
         #endif
@@ -195,64 +167,49 @@ extension HTTPRequest {
         }
         switch result {
         case .success(let responseData):
-            guard let responseModel = responseData.kj.model(ResponseModel.self) else {
-                print("responseError = 解析响应对象失败")
-                return
+            do {
+                let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: [])
+                let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
+                let jsonString = String(data: jsonData, encoding: .utf8) ?? "解析响应对象失败"
+                print("responseObject = \(jsonString)")
+            } catch {
+                print("responseObject = 解析响应对象失败")
             }
-            let responseString = responseModel.kj.JSONString(prettyPrinted: true)
-            print("responseJSON = \(responseString)")
         case .failure(let error):
-            print("responseError = \(error.localizedDescription)")
+            print("responseObject = \(error.localizedDescription)")
         }
         #endif
     }
-}
-
-/// parse response
-extension HTTPRequest {
-    static func parseResponse(
-        api: HTTP,
-        headers: [String: Any]?,
-        result: Swift.Result<Data, AFError>,
-        cancelHandler: CancelHandler? = nil,
-        completionHandler: @escaping CompletionHandler
-    ) {
+    /// 解析响应结果
+    static func parseResponse(headers: [String: Any]?, result: Swift.Result<Data, AFError>, completionHandler: @escaping (_ result: Result) -> Void) {
         switch result {
         case .success(let responseData):
-            // 解析 responseModel
-            guard let responseModel = responseData.kj.model(ResponseModel.self) else {
+            // 解析响应对象
+            let success: Bool!
+            let code: Int!
+            let message: String?
+            let data: Any?
+            do {
+                let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as! [String: Any]
+                success = jsonObject["success"] as? Bool
+                code = jsonObject["code"] as? Int
+                message = jsonObject["message"] as? String
+                data = jsonObject["data"]
+            } catch {
                 completionHandler(.failure(message: .exceptionData))
                 return
             }
             // 解析 data 数据
-            if responseModel.success {
-                switch api.responseDataType {
-                case .any:
-                    completionHandler(.success(data: responseModel.data, headers: headers))
-                case .model(modelType: let modelType):
-                    guard let data = responseModel.data as? [String: Any] else {
-                        completionHandler(.failure(message: .exceptionData))
-                        return
-                    }
-                    completionHandler(.success(data: model(from: data, type: modelType), headers: headers))
-                case .modelArray(modelType: let modelType):
-                    guard let data = responseModel.data as? [Any] else {
-                        completionHandler(.failure(message: .exceptionData))
-                        return
-                    }
-                    completionHandler(.success(data: modelArray(from: data, type: modelType), headers: headers))
-                }
+            if success {
+                completionHandler(.success(data: data, headers: headers))
             } else {
-                guard let message = responseModel.message else {
-                    completionHandler(.failure(message: .noneMessage))
-                    return
-                }
-                completionHandler(.failure(message: MessageData(rawValue: message)))
+                let error = message == nil ? .noneMessage : Result.MessageData(rawValue: message!)
+                completionHandler(.failure(message: error))
             }
         case .failure(let error):
             switch error {
             case .explicitlyCancelled:
-                cancelHandler?()
+                completionHandler(.cancel)
             case .responseSerializationFailed:
                 completionHandler(.failure(message: .exceptionData))
             default:
