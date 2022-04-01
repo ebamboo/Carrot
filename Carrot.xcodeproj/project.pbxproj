@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD8C5ECC27F692160008420C /* Macros.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8C5ECB27F692160008420C /* Macros.swift */; };
 		ADBBCB9D27F57CB50036AD89 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBBCB9C27F57CB50036AD89 /* Parse.swift */; };
 		ADF36DF527510F79008BA1DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36DF427510F79008BA1DB /* AppDelegate.swift */; };
 		ADF36DF927510F79008BA1DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36DF827510F79008BA1DB /* ViewController.swift */; };
@@ -25,6 +26,7 @@
 		01615ADE153C43FC73D6ECBF /* Pods-Carrot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrot.release.xcconfig"; path = "Target Support Files/Pods-Carrot/Pods-Carrot.release.xcconfig"; sourceTree = "<group>"; };
 		03830C1278EC4B03942288AD /* Pods-Carrot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrot.debug.xcconfig"; path = "Target Support Files/Pods-Carrot/Pods-Carrot.debug.xcconfig"; sourceTree = "<group>"; };
 		6DA2187293594F192E2AFBB9 /* Pods_Carrot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Carrot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD8C5ECB27F692160008420C /* Macros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Macros.swift; sourceTree = "<group>"; };
 		ADBBCB9C27F57CB50036AD89 /* Parse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
 		ADF36DF127510F79008BA1DB /* Carrot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carrot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADF36DF427510F79008BA1DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 		ADF36E082751259F008BA1DB /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				AD8C5ECB27F692160008420C /* Macros.swift */,
 				ADF36E0D275126AB008BA1DB /* UIView+HUD.swift */,
 				ADF36E0B27512667008BA1DB /* HTTP.swift */,
 				ADBBCB9C27F57CB50036AD89 /* Parse.swift */,
@@ -250,6 +253,7 @@
 				ADF36E0C27512667008BA1DB /* HTTP.swift in Sources */,
 				ADF36E122751F585008BA1DB /* FlowImageViewController.swift in Sources */,
 				ADF36E0E275126AB008BA1DB /* UIView+HUD.swift in Sources */,
+				AD8C5ECC27F692160008420C /* Macros.swift in Sources */,
 				ADF36E0A275125B8008BA1DB /* FlowImageView.swift in Sources */,
 				ADBBCB9D27F57CB50036AD89 /* Parse.swift in Sources */,
 				ADF36DF527510F79008BA1DB /* AppDelegate.swift in Sources */,
