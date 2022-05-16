@@ -9,15 +9,16 @@ import UIKit
 
 /// 网格样式展示图片
 /// 可添加、删除图片
+/// 展示网络图片时，只需要实现 var showWebImage: ((_ imageView: UIImageView, _ url: String) -> Void)? 即可
 class FlowImageView: UICollectionView {
     
     // MARK: - 布局配置
     
     /// 是否自适应大小
     /// 如果使用，则布局表现和 UILabel 设置多行之后的表现类似
-    /// ！！！ 注意自适应大小布局时，itemSizeReader 不可使用本身布局信息，否则导致循环调用  ！！！
+    /// ！！！ 注意自适应大小布局时，itemSizeReader 不可使用本身布局信息，否则可能导致循环调用  ！！！
     @IBInspectable var autosize: Bool = false
-    /// 滑动方向
+    /// 滑动方向，默认垂直方向 vertical。
     var direction: UICollectionView.ScrollDirection {
         get {
             let layout = collectionViewLayout as! UICollectionViewFlowLayout
@@ -86,23 +87,7 @@ class FlowImageView: UICollectionView {
         self.images = images
         reloadData()
         // 非自适应大小时，滑动到尾部
-        if !autosize {
-            let lastIndexPath: IndexPath = {
-                if addable, self.images.count < maxImageCount {
-                    let lastIndex = self.images.count
-                    return IndexPath(item: lastIndex, section: 0)
-                } else {
-                    let lastIndex = self.images.count - 1
-                    return IndexPath(item: lastIndex, section: 0)
-                }
-            }()
-            switch direction {
-            case .vertical:
-                self.scrollToItem(at: lastIndexPath, at: .bottom, animated: true)
-            default:
-                self.scrollToItem(at: lastIndexPath, at: .right, animated: true)
-            }
-        }
+        autosize ? () : scrollToLastItem()
     }
     
     /// 试图添加新的图片并刷新视图
@@ -112,23 +97,7 @@ class FlowImageView: UICollectionView {
         self.images += images
         reloadData()
         // 非自适应大小时，滑动到尾部
-        if !autosize {
-            let lastIndexPath: IndexPath = {
-                if addable, self.images.count < maxImageCount {
-                    let lastIndex = self.images.count
-                    return IndexPath(item: lastIndex, section: 0)
-                } else {
-                    let lastIndex = self.images.count - 1
-                    return IndexPath(item: lastIndex, section: 0)
-                }
-            }()
-            switch direction {
-            case .vertical:
-                self.scrollToItem(at: lastIndexPath, at: .bottom, animated: true)
-            default:
-                self.scrollToItem(at: lastIndexPath, at: .right, animated: true)
-            }
-        }
+        autosize ? () : scrollToLastItem()
     }
     
     // MARK: - life circle (private)
@@ -158,16 +127,36 @@ class FlowImageView: UICollectionView {
         register(FlowImageViewCell.self, forCellWithReuseIdentifier: "FlowImageViewCell")
     }
     
+    /// 要展示的图片数据源，不包括添加按钮图片
     private var images: [ImageModel] = []
     
-    override var contentSize: CGSize {
-        didSet {
-            if autosize {
-                invalidateIntrinsicContentSize()
+    /// 滑动到尾部
+    private func scrollToLastItem() {
+        let lastIndexPath: IndexPath = { [unowned self] in
+            if self.addable, self.images.count < self.maxImageCount {
+                let lastIndex = self.images.count
+                return IndexPath(item: lastIndex, section: 0)
+            } else {
+                let lastIndex = self.images.count - 1
+                return IndexPath(item: lastIndex, section: 0)
             }
+        }()
+        switch direction {
+        case .vertical:
+            self.scrollToItem(at: lastIndexPath, at: .bottom, animated: true)
+        default:
+            self.scrollToItem(at: lastIndexPath, at: .right, animated: true)
         }
     }
     
+    ///
+    /// 自适应大小时生效
+    ///
+    override var contentSize: CGSize {
+        didSet {
+            autosize ? invalidateIntrinsicContentSize() : ()
+        }
+    }
     override var intrinsicContentSize: CGSize {
         layoutIfNeeded()
         return contentSize

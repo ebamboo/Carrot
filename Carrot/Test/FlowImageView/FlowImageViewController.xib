@@ -23,9 +23,6 @@
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="300" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="zg0-g2-lN9" customClass="FlowImageView" customModule="Carrot" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="144" width="414" height="300"/>
                     <color key="backgroundColor" red="0.99607843139999996" green="0.30980392159999998" blue="0.30980392159999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="300" id="b4z-Ji-F0c"/>
-                    </constraints>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OE5-JH-odV">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -36,7 +33,7 @@
                         <userDefinedRuntimeAttribute type="number" keyPath="maxImageCount">
                             <integer key="value" value="40"/>
                         </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="autosize" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="autosize" value="YES"/>
                     </userDefinedRuntimeAttributes>
                 </collectionView>
             </subviews>

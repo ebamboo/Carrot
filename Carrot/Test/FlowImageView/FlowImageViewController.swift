@@ -18,22 +18,6 @@ class FlowImageViewController: UIViewController {
         testView.itemSizeReader = { [unowned self] view in
             let side = (self.view.bounds.width - 30) / 4 - 1
             return CGSize(width: side, height: side)
-            
-//            if view.autosize {
-//                return CGSize(width: 80, height: 80)
-//            } else {
-//                let lineNum = 4.0
-//                switch view.direction {
-//                case .vertical:
-//                    let spacing = view.degeInsets.left + view.degeInsets.right + view.minItemSpacing * (lineNum - 1)
-//                    let side = (view.bounds.width - spacing) / lineNum - 1
-//                    return CGSize(width: side, height: side)
-//                default:
-//                    let spacing = view.degeInsets.top + view.degeInsets.bottom + view.minItemSpacing * CGFloat(lineNum - 1)
-//                    let side = (view.bounds.height - spacing) / lineNum - 1
-//                    return CGSize(width: side, height: side)
-//                }
-//            }
         }
         
         testView.willAddImages = { [unowned testView] in
@@ -47,7 +31,7 @@ class FlowImageViewController: UIViewController {
             print("click index = \(index)")
         }
         
-        let images: [FlowImageView.ImageModel] = (1...8).map { i in
+        let images: [FlowImageView.ImageModel] = (1...9).map { i in
             let name = String(format: "%02d", i)
             let image = UIImage(named: name)!
             return FlowImageView.ImageModel.image(rawValue: image)
