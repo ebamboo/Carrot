@@ -61,7 +61,7 @@ class FlowImageView: UICollectionView {
     @IBInspectable var maxImageCount: Int = 9
     /// 是否具备删除图片功能
     @IBInspectable var deletable: Bool = true
-    /// 删除按钮图片
+    /// 删除按钮图片 30 · 30
     @IBInspectable var deletableImage: UIImage? = UIImage(named: "bb-image-deletion")
     /// 是否具备添加图片功能
     @IBInspectable var addable: Bool = true
@@ -85,6 +85,24 @@ class FlowImageView: UICollectionView {
         guard images.count <= maxImageCount else { return }
         self.images = images
         reloadData()
+        // 非自适应大小时，滑动到尾部
+        if !autosize {
+            let lastIndexPath: IndexPath = {
+                if addable, self.images.count < maxImageCount {
+                    let lastIndex = self.images.count
+                    return IndexPath(item: lastIndex, section: 0)
+                } else {
+                    let lastIndex = self.images.count - 1
+                    return IndexPath(item: lastIndex, section: 0)
+                }
+            }()
+            switch direction {
+            case .vertical:
+                self.scrollToItem(at: lastIndexPath, at: .bottom, animated: true)
+            default:
+                self.scrollToItem(at: lastIndexPath, at: .right, animated: true)
+            }
+        }
     }
     
     /// 试图添加新的图片并刷新视图
@@ -93,9 +111,27 @@ class FlowImageView: UICollectionView {
         guard self.images.count + images.count <= maxImageCount else { return }
         self.images += images
         reloadData()
+        // 非自适应大小时，滑动到尾部
+        if !autosize {
+            let lastIndexPath: IndexPath = {
+                if addable, self.images.count < maxImageCount {
+                    let lastIndex = self.images.count
+                    return IndexPath(item: lastIndex, section: 0)
+                } else {
+                    let lastIndex = self.images.count - 1
+                    return IndexPath(item: lastIndex, section: 0)
+                }
+            }()
+            switch direction {
+            case .vertical:
+                self.scrollToItem(at: lastIndexPath, at: .bottom, animated: true)
+            default:
+                self.scrollToItem(at: lastIndexPath, at: .right, animated: true)
+            }
+        }
     }
     
-    // MARK: - life circle
+    // MARK: - life circle (private)
     
     /// image 模型
     enum ImageModel {
@@ -151,18 +187,10 @@ extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegateFlo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FlowImageViewCell", for: indexPath) as! FlowImageViewCell
-        // deleteBtn 设置
-        cell.deleteBtn.isHidden = !deletable
-        cell.deleteBtn.setImage(deletableImage, for: .normal)
-        cell.deleteHandler = { [unowned self] in
-            self.images.remove(at: indexPath.item)
-            self.reloadData()
-            self.didDeleteImage?(indexPath.item)
-        }
-        // imageView 设置
         if addable, images.count < maxImageCount, indexPath.item == images.count { // 添加 item
             cell.imageView.image = addableImage
             cell.deleteBtn.isHidden = true
+            cell.deleteHandler = nil
         } else { // 图片 item
             let image = images[indexPath.item]
             switch image {
@@ -171,15 +199,22 @@ extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegateFlo
             case .url(let rawValue):
                 showWebImage?(cell.imageView, rawValue)
             }
+            cell.deleteBtn.isHidden = !deletable
+            cell.deleteBtn.setImage(deletableImage, for: .normal)
+            cell.deleteHandler = { [unowned self] in // 点击删除按钮
+                self.images.remove(at: indexPath.item)
+                self.reloadData()
+                self.didDeleteImage?(indexPath.item)
+            }
         }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
-        if addable, images.count < maxImageCount, indexPath.item == images.count { // 添加 item
+        if addable, images.count < maxImageCount, indexPath.item == images.count { // 点击添加按钮
             willAddImages?()
-        } else { // 图片 item
+        } else { // 点击图片
             didClickImage?(indexPath.item)
         }
     }
@@ -204,18 +239,18 @@ extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegateFlo
 
 class FlowImageViewCell: UICollectionViewCell {
     
-    lazy var imageView: UIImageView = {
+    lazy var imageView: UIImageView = { [unowned self] in
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
-        contentView.insertSubview(view, at: 0)
+        self.contentView.insertSubview(view, at: 0)
         return view
     }()
     
-    lazy var deleteBtn: UIButton = {
+    lazy var deleteBtn: UIButton = { [unowned self] in
         let view = UIButton(type: .custom)
         view.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
-        contentView.addSubview(view)
+        self.contentView.addSubview(view)
         return view
     }()
     @objc func deleteAction() {
@@ -226,7 +261,7 @@ class FlowImageViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         imageView.frame = contentView.bounds
-        deleteBtn.frame = CGRect(x: contentView.bounds.size.width-30, y: 0, width: 30, height: 30)
+        deleteBtn.frame = CGRect(x: contentView.bounds.size.width - 30, y: 0, width: 30, height: 30)
     }
     
 }

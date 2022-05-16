@@ -47,12 +47,12 @@ class FlowImageViewController: UIViewController {
             print("click index = \(index)")
         }
         
-        let images: [FlowImageView.ImageModel] = (1...6).map { i in
+        let images: [FlowImageView.ImageModel] = (1...8).map { i in
             let name = String(format: "%02d", i)
             let image = UIImage(named: name)!
             return FlowImageView.ImageModel.image(rawValue: image)
         }
-//        testView.reloadImages(images)
+        testView.reloadImages(images)
                                  
     }
     
