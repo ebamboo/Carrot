@@ -9,47 +9,51 @@ import UIKit
 
 class FlowImageViewController: UIViewController {
 
-//    @IBOutlet weak var testView: FlowImageView!
-    var testView: FlowImageView!
+    @IBOutlet weak var testView: FlowImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "FlowImageView"
         
-        testView = FlowImageView.init(frame: .zero)
-        testView.backgroundColor = .red
-        view.addSubview(testView)
-        testView.direction = .horizontal
-        testView.maxImageCount = 16
-        
-
-        // 添加功能
-        testView.addable = true
-        testView.additionHandler {
-            self.testView.addImage(.image(rawValue: UIImage(named: "16")!))
+        testView.itemSizeReader = { [unowned self] view in
+            let side = (self.view.bounds.width - 30) / 4 - 1
+            return CGSize(width: side, height: side)
+            
+//            if view.autosize {
+//                return CGSize(width: 80, height: 80)
+//            } else {
+//                let lineNum = 4.0
+//                switch view.direction {
+//                case .vertical:
+//                    let spacing = view.degeInsets.left + view.degeInsets.right + view.minItemSpacing * (lineNum - 1)
+//                    let side = (view.bounds.width - spacing) / lineNum - 1
+//                    return CGSize(width: side, height: side)
+//                default:
+//                    let spacing = view.degeInsets.top + view.degeInsets.bottom + view.minItemSpacing * CGFloat(lineNum - 1)
+//                    let side = (view.bounds.height - spacing) / lineNum - 1
+//                    return CGSize(width: side, height: side)
+//                }
+//            }
         }
-        // 删除功能
-        testView.deletable = true
-        // 点击图片
-        testView.clickImageHandler { index in
-            print("index = \(index)")
+        
+        testView.willAddImages = { [unowned testView] in
+            let image = FlowImageView.ImageModel.image(rawValue: UIImage(named: "16")!)
+            testView?.addImages([image])
+        }
+        testView.didDeleteImage = { index in
+            print("delete index = \(index)")
+        }
+        testView.didClickImage = { index in
+            print("click index = \(index)")
         }
         
-        // 数据
-        testView.images = (1...6).map({ i in
+        let images: [FlowImageView.ImageModel] = (1...6).map { i in
             let name = String(format: "%02d", i)
             let image = UIImage(named: name)!
             return FlowImageView.ImageModel.image(rawValue: image)
-        })
-        
-        
-    }
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        let frame = CGRect(x: view.safeAreaInsets.left, y: view.safeAreaInsets.top, width: view.bounds.size.width - view.safeAreaInsets.left - view.safeAreaInsets.right, height: view.bounds.size.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom)
-        testView.frame = frame
-        testView.updateLayout()
+        }
+//        testView.reloadImages(images)
+                                 
     }
     
 }

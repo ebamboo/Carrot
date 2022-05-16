@@ -5,18 +5,18 @@
 //  Created by ebamboo on 2021/11/26.
 //
 
-import SDWebImage
+import UIKit
 
 /// 网格样式展示图片
 /// 可添加、删除图片
 class FlowImageView: UICollectionView {
     
-    /// image 模型
-    enum ImageModel {
-        case image(rawValue: UIImage)
-        case url(rawValue: String)
-    }
+    // MARK: - 布局配置
     
+    /// 是否自适应大小
+    /// 如果使用，则布局表现和 UILabel 设置多行之后的表现类似
+    /// ！！！ 注意自适应大小布局时，itemSizeReader 不可使用本身布局信息，否则导致循环调用  ！！！
+    @IBInspectable var autosize: Bool = false
     /// 滑动方向
     var direction: UICollectionView.ScrollDirection {
         get {
@@ -34,72 +34,73 @@ class FlowImageView: UICollectionView {
     @IBInspectable var minItemSpacing: CGFloat = 10.0
     /// line 最小间距
     @IBInspectable var minLineSpacing: CGFloat = 10.0
+    /// 获取 itemSize 方法器
+    /// 一般地，参照默认实现的获取器按需实现相关功能
+    /// ！！！ 注意自适应大小布局时，不可用使用 view 相关布局信息 ！！！
+    var itemSizeReader: (FlowImageView) -> CGSize = { view in
+        if view.autosize {
+            return CGSize(width: 80, height: 80)
+        } else {
+            let lineNum = 4.0
+            switch view.direction {
+            case .vertical:
+                let spacing = view.degeInsets.left + view.degeInsets.right + view.minItemSpacing * (lineNum - 1)
+                let side = (view.bounds.width - spacing) / lineNum - 1
+                return CGSize(width: side, height: side)
+            default:
+                let spacing = view.degeInsets.top + view.degeInsets.bottom + view.minItemSpacing * CGFloat(lineNum - 1)
+                let side = (view.bounds.height - spacing) / lineNum - 1
+                return CGSize(width: side, height: side)
+            }
+        }
+    }
+    
+    // MARK: - 功能配置
+    
     /// 最大 image 数量范围：[1,  ∞]
     @IBInspectable var maxImageCount: Int = 9
-    /// 每行 item 数量范围：[1, 99]
-    /// 如果设置了 itemSIze 则忽略该属性
-    @IBInspectable var lineItemCount: Int = 3
-    /// 每次将要布局 FlowImageView 时都会试图读取 itemSize
-    /// 如果没有设置则根据 lineItemCount 进行计算
-    /// 并且设定之后要执行 reloadData() 使之生效
-    /// 一般在 superView 中的 layoutSubviews() 方法
-    /// 或者 UIViewController 中的 viewWillLayoutSubviews() 方法进行设定
-    /// 可根据实际情况决定是否需要在 viewDidLayoutSubviews() 方法中进行设定
-    var itemSize: CGSize?
-    /// 刷新布局
-    /// 改变 frame、lineItemCount、itemSize 之后调用该方法使布局立即生效
-    func updateLayout() {
-        collectionViewLayout.invalidateLayout()
-    }
-    
-    /// 是否具备添加图片功能
-    @IBInspectable var addable: Bool = false
-    /// 添加按钮图片
-    @IBInspectable var addableImage: UIImage? = UIImage(named: "bb-image-addition")
-    ///
-    /// 点击添加按钮回调
-    ///
-    private var additionHandler: (() -> Void)?
-    func additionHandler(_ handler: @escaping () -> Void) {
-        additionHandler = handler
-    }
-    /// 添加一个 image
-    func addImage(_ image: ImageModel) {
-        guard addable, images.count < maxImageCount else { return }
-        images.append(image)
-        self.reloadData()
-        // 最后一个元素下表
-        let lastIndex = images.count - (images.count == maxImageCount ? 1 : 0)
-        let lastIndexPath = IndexPath(item: lastIndex, section: 0)
-        // 滑动到尾部
-        switch direction {
-        case .vertical:
-            self.scrollToItem(at: lastIndexPath, at: .bottom, animated: true)
-        default:
-            self.scrollToItem(at: lastIndexPath, at: .right, animated: true)
-        }
-    }
-    
     /// 是否具备删除图片功能
-    @IBInspectable var deletable: Bool = false
+    @IBInspectable var deletable: Bool = true
     /// 删除按钮图片
     @IBInspectable var deletableImage: UIImage? = UIImage(named: "bb-image-deletion")
+    /// 是否具备添加图片功能
+    @IBInspectable var addable: Bool = true
+    /// 添加按钮图片
+    @IBInspectable var addableImage: UIImage? = UIImage(named: "bb-image-addition")
     
-    ///
+    // MARK: - 功能
+    
+    /// 删除图片之后回调
+    var didDeleteImage: ((_ index: Int) -> Void)?
+    /// 点击添加图片按钮回调
+    var willAddImages: (() -> Void)?
     /// 点击图片回调
-    ///
-    private var clickImageHandler: ((_ index: Int) -> Void)?
-    func clickImageHandler(_ handler: @escaping (_ index: Int) -> Void) {
-        clickImageHandler = handler
+    var didClickImage: ((_ index: Int) -> Void)?
+    /// 展示网络图片
+    var showWebImage: ((_ imageView: UIImageView, _ url: String) -> Void)?
+    
+    /// 试图使用新的数据源刷新视图
+    /// 如果新的数据源数量大于 maxImageCount 则不能刷新视图
+    func reloadImages(_ images: [ImageModel]) {
+        guard images.count <= maxImageCount else { return }
+        self.images = images
+        reloadData()
     }
     
-    /// 直接赋值会刷新 collection view
-    /// 赋值时要注意不能超过最大限制数量
-    /// 不可以在外部添加和删除 item
-    var images: [ImageModel] = [] {
-        didSet {
-            reloadData()
-        }
+    /// 试图添加新的图片并刷新视图
+    /// 如果添加新的图片之后数量大于 maxImageCount 则不能添加图片
+    func addImages(_ images: [ImageModel]) {
+        guard self.images.count + images.count <= maxImageCount else { return }
+        self.images += images
+        reloadData()
+    }
+    
+    // MARK: - life circle
+    
+    /// image 模型
+    enum ImageModel {
+        case image(rawValue: UIImage)
+        case url(rawValue: String)
     }
     
     ///
@@ -120,10 +121,25 @@ class FlowImageView: UICollectionView {
         delegate = self
         register(FlowImageViewCell.self, forCellWithReuseIdentifier: "FlowImageViewCell")
     }
-
+    
+    private var images: [ImageModel] = []
+    
+    override var contentSize: CGSize {
+        didSet {
+            if autosize {
+                invalidateIntrinsicContentSize()
+            }
+        }
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        layoutIfNeeded()
+        return contentSize
+    }
+    
 }
 
-extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if addable, images.count < maxImageCount {
@@ -138,16 +154,23 @@ extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegate, U
         // deleteBtn 设置
         cell.deleteBtn.isHidden = !deletable
         cell.deleteBtn.setImage(deletableImage, for: .normal)
-        cell.deleteHandler = {
+        cell.deleteHandler = { [unowned self] in
             self.images.remove(at: indexPath.item)
             self.reloadData()
+            self.didDeleteImage?(indexPath.item)
         }
         // imageView 设置
         if addable, images.count < maxImageCount, indexPath.item == images.count { // 添加 item
             cell.imageView.image = addableImage
             cell.deleteBtn.isHidden = true
         } else { // 图片 item
-            cell.image = images[indexPath.item]
+            let image = images[indexPath.item]
+            switch image {
+            case .image(let rawValue):
+                cell.imageView.image = rawValue
+            case .url(let rawValue):
+                showWebImage?(cell.imageView, rawValue)
+            }
         }
         return cell
     }
@@ -155,27 +178,14 @@ extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegate, U
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
         if addable, images.count < maxImageCount, indexPath.item == images.count { // 添加 item
-            additionHandler?()
+            willAddImages?()
         } else { // 图片 item
-            clickImageHandler?(indexPath.item)
+            didClickImage?(indexPath.item)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if itemSize == nil {
-            switch direction {
-            case .horizontal:
-                let usableHeight = collectionView.bounds.size.height - CGFloat(lineItemCount - 1) * minItemSpacing - degeInsets.top - degeInsets.bottom
-                let side = usableHeight / CGFloat(lineItemCount) - 1
-                return CGSize(width: side, height: side)
-            default:
-                let usableWidth = collectionView.bounds.size.width - CGFloat(lineItemCount - 1) * minItemSpacing - degeInsets.left - degeInsets.right
-                let side = usableWidth / CGFloat(lineItemCount) - 1
-                return CGSize(width: side, height: side)
-            }
-        } else {
-            return itemSize!
-        }
+        return itemSizeReader(collectionView as! FlowImageView)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -194,51 +204,29 @@ extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegate, U
 
 class FlowImageViewCell: UICollectionViewCell {
     
-    let imageView: UIImageView = {
+    lazy var imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
+        contentView.insertSubview(view, at: 0)
         return view
     }()
     
-    let deleteBtn: UIButton = {
+    lazy var deleteBtn: UIButton = {
         let view = UIButton(type: .custom)
         view.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
+        contentView.addSubview(view)
         return view
     }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        contentView.addSubview(imageView)
-        contentView.addSubview(deleteBtn)
+    @objc func deleteAction() {
+        deleteHandler?()
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    var deleteHandler: (() -> Void)?
     
     override func layoutSubviews() {
         super.layoutSubviews()
         imageView.frame = contentView.bounds
         deleteBtn.frame = CGRect(x: contentView.bounds.size.width-30, y: 0, width: 30, height: 30)
     }
-    
-    @objc func deleteAction() {
-        deleteHandler?()
-    }
-    
-    var image: FlowImageView.ImageModel? {
-        didSet {
-            switch image {
-            case .image(let rawValue):
-                imageView.image = rawValue
-            case .url(let rawValue):
-                imageView.sd_setImage(with: URL(string: rawValue))
-            case .none:
-                imageView.image = nil
-            }
-        }
-    }
-    var deleteHandler: (() -> Void)?
     
 }
