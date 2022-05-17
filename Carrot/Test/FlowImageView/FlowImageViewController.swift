@@ -16,13 +16,15 @@ class FlowImageViewController: UIViewController {
         title = "FlowImageView"
         
         testView.itemSizeReader = { [unowned self] view in
-            let side = (self.view.bounds.width - 30) / 4 - 1
+            print("======== width \(self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right)")
+            let side = (self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right - 30) / 4 - 1
+            print("======== side \(side)")
             return CGSize(width: side, height: side)
         }
         
-        testView.willAddImages = { [unowned testView] in
+        testView.willAddImages = { flowImageView in
             let image = FlowImageView.ImageModel.image(rawValue: UIImage(named: "16")!)
-            testView?.addImages([image])
+            flowImageView.addImages([image])
         }
         testView.didDeleteImage = { index in
             print("delete index = \(index)")
@@ -31,7 +33,7 @@ class FlowImageViewController: UIViewController {
             print("click index = \(index)")
         }
         
-        let images: [FlowImageView.ImageModel] = (1...9).map { i in
+        let images: [FlowImageView.ImageModel] = (1...3).map { i in
             let name = String(format: "%02d", i)
             let image = UIImage(named: name)!
             return FlowImageView.ImageModel.image(rawValue: image)

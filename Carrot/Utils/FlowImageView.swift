@@ -7,8 +7,7 @@
 
 import UIKit
 
-/// 网格样式展示图片
-/// 可添加、删除图片
+/// 网格样式展示图片、添加图片、删除图片
 /// 展示网络图片时，只需要实现 var showWebImage: ((_ imageView: UIImageView, _ url: String) -> Void)? 即可
 class FlowImageView: UICollectionView {
     
@@ -36,19 +35,19 @@ class FlowImageView: UICollectionView {
     /// line 最小间距
     @IBInspectable var minLineSpacing: CGFloat = 10.0
     /// 获取 itemSize 方法器
-    /// 一般地，参照默认实现的获取器按需实现相关功能
+    /// 一般地，参照默认实现的获取器按需实现特定情况下的相关功能
     /// ！！！ 注意自适应大小布局时，不可用使用 view 相关布局信息 ！！！
     var itemSizeReader: (FlowImageView) -> CGSize = { view in
         if view.autosize {
             return CGSize(width: 80, height: 80)
         } else {
-            let lineNum = 4.0
+            let lineNum = 4.0 // 垂直滑动时，每行 item 个数；水平滑动时，每列 item 个数；
             switch view.direction {
-            case .vertical:
+            case .vertical: // 垂直滑动布局
                 let spacing = view.degeInsets.left + view.degeInsets.right + view.minItemSpacing * (lineNum - 1)
                 let side = (view.bounds.width - spacing) / lineNum - 1
                 return CGSize(width: side, height: side)
-            default:
+            default: // 水平滑动布局
                 let spacing = view.degeInsets.top + view.degeInsets.bottom + view.minItemSpacing * CGFloat(lineNum - 1)
                 let side = (view.bounds.height - spacing) / lineNum - 1
                 return CGSize(width: side, height: side)
@@ -74,17 +73,17 @@ class FlowImageView: UICollectionView {
     /// 删除图片之后回调
     var didDeleteImage: ((_ index: Int) -> Void)?
     /// 点击添加图片按钮回调
-    var willAddImages: (() -> Void)?
+    var willAddImages: ((_ flowImageView: FlowImageView) -> Void)?
     /// 点击图片回调
     var didClickImage: ((_ index: Int) -> Void)?
-    /// 展示网络图片
+    /// imageView 如何展示网络图片 url
     var showWebImage: ((_ imageView: UIImageView, _ url: String) -> Void)?
     
     /// 试图使用新的数据源刷新视图
     /// 如果新的数据源数量大于 maxImageCount 则不能刷新视图
-    func reloadImages(_ images: [ImageModel]) {
-        guard images.count <= maxImageCount else { return }
-        self.images = images
+    func reloadImages(_ newImages: [ImageModel]) {
+        guard newImages.count <= maxImageCount else { return }
+        images = newImages
         reloadData()
         // 非自适应大小时，滑动到尾部
         autosize ? () : scrollToLastItem()
@@ -92,9 +91,9 @@ class FlowImageView: UICollectionView {
     
     /// 试图添加新的图片并刷新视图
     /// 如果添加新的图片之后数量大于 maxImageCount 则不能添加图片
-    func addImages(_ images: [ImageModel]) {
-        guard self.images.count + images.count <= maxImageCount else { return }
-        self.images += images
+    func addImages(_ newImages: [ImageModel]) {
+        guard images.count + newImages.count <= maxImageCount else { return }
+        images += newImages
         reloadData()
         // 非自适应大小时，滑动到尾部
         autosize ? () : scrollToLastItem()
@@ -202,7 +201,7 @@ extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegateFlo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
         if addable, images.count < maxImageCount, indexPath.item == images.count { // 点击添加按钮
-            willAddImages?()
+            willAddImages?(collectionView as! FlowImageView)
         } else { // 点击图片
             didClickImage?(indexPath.item)
         }
@@ -228,7 +227,7 @@ extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegateFlo
 
 class FlowImageViewCell: UICollectionViewCell {
     
-    lazy var imageView: UIImageView = { [unowned self] in
+    lazy var imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
@@ -236,7 +235,7 @@ class FlowImageViewCell: UICollectionViewCell {
         return view
     }()
     
-    lazy var deleteBtn: UIButton = { [unowned self] in
+    lazy var deleteBtn: UIButton = {
         let view = UIButton(type: .custom)
         view.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
         self.contentView.addSubview(view)
