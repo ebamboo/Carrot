@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FlowImageViewController" customModule="Carrot" customModuleProvider="target">
             <connections>
-                <outlet property="testView" destination="zg0-g2-lN9" id="Tal-fB-fAl"/>
+                <outlet property="testView" destination="L7X-Sw-uoZ" id="Rkt-LG-6GX"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,19 +20,16 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="300" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="zg0-g2-lN9" customClass="FlowImageView" customModule="Carrot" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="144" width="414" height="300"/>
-                    <color key="backgroundColor" red="0.99607843139999996" green="0.30980392159999998" blue="0.30980392159999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OE5-JH-odV">
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="300" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="L7X-Sw-uoZ" customClass="FlowImageView" customModule="Carrot" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="244" width="414" height="300"/>
+                    <color key="backgroundColor" systemColor="systemRedColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="teH-tn-diM">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="maxImageCount">
-                            <integer key="value" value="40"/>
-                        </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="autosize" value="YES"/>
                     </userDefinedRuntimeAttributes>
                 </collectionView>
@@ -40,9 +37,9 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="zg0-g2-lN9" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="100" id="U2T-nu-o10"/>
-                <constraint firstItem="zg0-g2-lN9" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="VNd-5l-i36"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="zg0-g2-lN9" secondAttribute="trailing" id="Ya2-AW-msc"/>
+                <constraint firstItem="L7X-Sw-uoZ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="VLj-Pd-zGQ"/>
+                <constraint firstItem="L7X-Sw-uoZ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="200" id="rEp-bl-w1c"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="L7X-Sw-uoZ" secondAttribute="trailing" id="suK-21-M1W"/>
             </constraints>
             <point key="canvasLocation" x="139" y="92"/>
         </view>
@@ -50,6 +47,9 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
