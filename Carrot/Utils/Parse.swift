@@ -8,7 +8,7 @@
 import Foundation
 import KakaJSON
 
-/// 强制解析数据 data 为基本数据类型如：bool, Int, Double, String, Array, Dictionary
+/// 试图解析数据 data 为基本数据类型如：bool, Int, Double, String, Array, Dictionary
 func parse<T>(_ data: Any?, _ type: T.Type, keys: [String] = []) -> T? {
     var parseData = data
     for key in keys {
@@ -18,7 +18,7 @@ func parse<T>(_ data: Any?, _ type: T.Type, keys: [String] = []) -> T? {
     return parseData as? T
 }
 
-/// 强制解析数据 data 为模型 M
+/// 试图解析数据 data 为模型 M
 func model<M: Convertible>(_ data: Any?, _ type: M.Type, keys: [String] = []) -> M? {
     var parseData = data
     for key in keys {
@@ -29,7 +29,7 @@ func model<M: Convertible>(_ data: Any?, _ type: M.Type, keys: [String] = []) ->
     return model(from: dic, type)
 }
 
-/// 强制解析数据 data 为模型列表 [M]
+/// 试图解析数据 data 为模型列表 [M]
 func modelList<M: Convertible>(_ data: Any?, _ type: M.Type, keys: [String] = []) -> [M]? {
     var parseData = data
     for key in keys {
