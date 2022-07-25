@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.4.4)
+  - BBPlayerView (1.2.0)
   - KakaJSON (1.1.2)
   - MBProgressHUD (1.2.0)
   - SDWebImage (5.12.1):
@@ -8,6 +9,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - BBPlayerView
   - KakaJSON
   - MBProgressHUD
   - SDWebImage
@@ -15,16 +17,18 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - BBPlayerView
     - KakaJSON
     - MBProgressHUD
     - SDWebImage
 
 SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  BBPlayerView: 94baef580cadf371d5b3e61ba83a1ce7a1215de2
   KakaJSON: cc5ff50a8c1cfbb09413db8496cb709a209e6137
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
 
-PODFILE CHECKSUM: c9e541ffd42a12a9cdc5a10f51f022b55a5b831c
+PODFILE CHECKSUM: 4e69569b6ebcaa9f91f51117ba213f57314e9159
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

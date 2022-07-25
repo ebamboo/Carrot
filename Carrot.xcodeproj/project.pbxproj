@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD731C95288E89D6006D6EB8 /* MediaBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C8E288E89D5006D6EB8 /* MediaBrowser.swift */; };
+		AD731C96288E89D6006D6EB8 /* MediaBrowserVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C8F288E89D5006D6EB8 /* MediaBrowserVideoCell.swift */; };
+		AD731C97288E89D6006D6EB8 /* MediaBrowserItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C90288E89D5006D6EB8 /* MediaBrowserItemModel.swift */; };
+		AD731C98288E89D6006D6EB8 /* MediaBrowserTopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C91288E89D5006D6EB8 /* MediaBrowserTopBar.swift */; };
+		AD731C99288E89D6006D6EB8 /* MediaBrowserImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C92288E89D6006D6EB8 /* MediaBrowserImageCell.swift */; };
+		AD731C9A288E89D6006D6EB8 /* MediaBrowserBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C93288E89D6006D6EB8 /* MediaBrowserBottomBar.swift */; };
+		AD731C9B288E89D6006D6EB8 /* MediaBrowserCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C94288E89D6006D6EB8 /* MediaBrowserCellManager.swift */; };
+		AD731C9E288E8ADE006D6EB8 /* MediaBrowserOC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C9D288E8ADE006D6EB8 /* MediaBrowserOC.swift */; };
+		AD731CA1288E96EB006D6EB8 /* BrowserTestSwiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C9F288E96EB006D6EB8 /* BrowserTestSwiftViewController.swift */; };
+		AD731CA2288E96EB006D6EB8 /* BrowserTestSwiftViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD731CA0288E96EB006D6EB8 /* BrowserTestSwiftViewController.xib */; };
+		AD731CA7288E96FF006D6EB8 /* BrowserTestOCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD731CA5288E96FF006D6EB8 /* BrowserTestOCViewController.m */; };
+		AD731CA8288E96FF006D6EB8 /* BrowserTestOCViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD731CA6288E96FF006D6EB8 /* BrowserTestOCViewController.xib */; };
 		AD8C5ECC27F692160008420C /* Macros.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8C5ECB27F692160008420C /* Macros.swift */; };
 		ADBBCB9D27F57CB50036AD89 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBBCB9C27F57CB50036AD89 /* Parse.swift */; };
 		ADF36DF527510F79008BA1DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36DF427510F79008BA1DB /* AppDelegate.swift */; };
@@ -26,6 +38,20 @@
 		01615ADE153C43FC73D6ECBF /* Pods-Carrot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrot.release.xcconfig"; path = "Target Support Files/Pods-Carrot/Pods-Carrot.release.xcconfig"; sourceTree = "<group>"; };
 		03830C1278EC4B03942288AD /* Pods-Carrot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrot.debug.xcconfig"; path = "Target Support Files/Pods-Carrot/Pods-Carrot.debug.xcconfig"; sourceTree = "<group>"; };
 		6DA2187293594F192E2AFBB9 /* Pods_Carrot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Carrot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD731C8E288E89D5006D6EB8 /* MediaBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaBrowser.swift; sourceTree = "<group>"; };
+		AD731C8F288E89D5006D6EB8 /* MediaBrowserVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaBrowserVideoCell.swift; sourceTree = "<group>"; };
+		AD731C90288E89D5006D6EB8 /* MediaBrowserItemModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaBrowserItemModel.swift; sourceTree = "<group>"; };
+		AD731C91288E89D5006D6EB8 /* MediaBrowserTopBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaBrowserTopBar.swift; sourceTree = "<group>"; };
+		AD731C92288E89D6006D6EB8 /* MediaBrowserImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaBrowserImageCell.swift; sourceTree = "<group>"; };
+		AD731C93288E89D6006D6EB8 /* MediaBrowserBottomBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaBrowserBottomBar.swift; sourceTree = "<group>"; };
+		AD731C94288E89D6006D6EB8 /* MediaBrowserCellManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaBrowserCellManager.swift; sourceTree = "<group>"; };
+		AD731C9D288E8ADE006D6EB8 /* MediaBrowserOC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaBrowserOC.swift; sourceTree = "<group>"; };
+		AD731C9F288E96EB006D6EB8 /* BrowserTestSwiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserTestSwiftViewController.swift; sourceTree = "<group>"; };
+		AD731CA0288E96EB006D6EB8 /* BrowserTestSwiftViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BrowserTestSwiftViewController.xib; sourceTree = "<group>"; };
+		AD731CA3288E96FE006D6EB8 /* Carrot-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Carrot-Bridging-Header.h"; sourceTree = "<group>"; };
+		AD731CA4288E96FF006D6EB8 /* BrowserTestOCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BrowserTestOCViewController.h; sourceTree = "<group>"; };
+		AD731CA5288E96FF006D6EB8 /* BrowserTestOCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrowserTestOCViewController.m; sourceTree = "<group>"; };
+		AD731CA6288E96FF006D6EB8 /* BrowserTestOCViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BrowserTestOCViewController.xib; sourceTree = "<group>"; };
 		AD8C5ECB27F692160008420C /* Macros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Macros.swift; sourceTree = "<group>"; };
 		ADBBCB9C27F57CB50036AD89 /* Parse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
 		ADF36DF127510F79008BA1DB /* Carrot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carrot.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +87,34 @@
 				01615ADE153C43FC73D6ECBF /* Pods-Carrot.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		AD731C8D288E89BD006D6EB8 /* MediaBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				AD731C8E288E89D5006D6EB8 /* MediaBrowser.swift */,
+				AD731C9D288E8ADE006D6EB8 /* MediaBrowserOC.swift */,
+				AD731C91288E89D5006D6EB8 /* MediaBrowserTopBar.swift */,
+				AD731C93288E89D6006D6EB8 /* MediaBrowserBottomBar.swift */,
+				AD731C92288E89D6006D6EB8 /* MediaBrowserImageCell.swift */,
+				AD731C8F288E89D5006D6EB8 /* MediaBrowserVideoCell.swift */,
+				AD731C94288E89D6006D6EB8 /* MediaBrowserCellManager.swift */,
+				AD731C90288E89D5006D6EB8 /* MediaBrowserItemModel.swift */,
+			);
+			path = MediaBrowser;
+			sourceTree = "<group>";
+		};
+		AD731C9C288E8A86006D6EB8 /* MediaBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				AD731C9F288E96EB006D6EB8 /* BrowserTestSwiftViewController.swift */,
+				AD731CA0288E96EB006D6EB8 /* BrowserTestSwiftViewController.xib */,
+				AD731CA4288E96FF006D6EB8 /* BrowserTestOCViewController.h */,
+				AD731CA5288E96FF006D6EB8 /* BrowserTestOCViewController.m */,
+				AD731CA6288E96FF006D6EB8 /* BrowserTestOCViewController.xib */,
+				AD731CA3288E96FE006D6EB8 /* Carrot-Bridging-Header.h */,
+			);
+			path = MediaBrowser;
 			sourceTree = "<group>";
 		};
 		ADF36DE827510F79008BA1DB = {
@@ -99,6 +153,7 @@
 		ADF36E082751259F008BA1DB /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				AD731C8D288E89BD006D6EB8 /* MediaBrowser */,
 				AD8C5ECB27F692160008420C /* Macros.swift */,
 				ADF36E0D275126AB008BA1DB /* UIView+HUD.swift */,
 				ADF36E0B27512667008BA1DB /* HTTP.swift */,
@@ -120,6 +175,7 @@
 		ADF36E21275370A4008BA1DB /* Test */ = {
 			isa = PBXGroup;
 			children = (
+				AD731C9C288E8A86006D6EB8 /* MediaBrowser */,
 				ADF36E0F2751F560008BA1DB /* FlowImageView */,
 			);
 			path = Test;
@@ -167,6 +223,7 @@
 				TargetAttributes = {
 					ADF36DF027510F79008BA1DB = {
 						CreatedOnToolsVersion = 13.1;
+						LastSwiftMigration = 1320;
 					};
 				};
 			};
@@ -195,8 +252,10 @@
 			files = (
 				ADF36E0127510F7B008BA1DB /* LaunchScreen.storyboard in Resources */,
 				ADF36DFE27510F7B008BA1DB /* Assets.xcassets in Resources */,
+				AD731CA2288E96EB006D6EB8 /* BrowserTestSwiftViewController.xib in Resources */,
 				ADF36E132751F585008BA1DB /* FlowImageViewController.xib in Resources */,
 				ADF36DFC27510F79008BA1DB /* Main.storyboard in Resources */,
+				AD731CA8288E96FF006D6EB8 /* BrowserTestOCViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,14 +308,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD731C9B288E89D6006D6EB8 /* MediaBrowserCellManager.swift in Sources */,
 				ADF36DF927510F79008BA1DB /* ViewController.swift in Sources */,
 				ADF36E0C27512667008BA1DB /* HTTP.swift in Sources */,
+				AD731C9A288E89D6006D6EB8 /* MediaBrowserBottomBar.swift in Sources */,
 				ADF36E122751F585008BA1DB /* FlowImageViewController.swift in Sources */,
+				AD731CA7288E96FF006D6EB8 /* BrowserTestOCViewController.m in Sources */,
+				AD731C9E288E8ADE006D6EB8 /* MediaBrowserOC.swift in Sources */,
 				ADF36E0E275126AB008BA1DB /* UIView+HUD.swift in Sources */,
 				AD8C5ECC27F692160008420C /* Macros.swift in Sources */,
 				ADF36E0A275125B8008BA1DB /* FlowImageView.swift in Sources */,
+				AD731C95288E89D6006D6EB8 /* MediaBrowser.swift in Sources */,
+				AD731C96288E89D6006D6EB8 /* MediaBrowserVideoCell.swift in Sources */,
+				AD731C99288E89D6006D6EB8 /* MediaBrowserImageCell.swift in Sources */,
 				ADBBCB9D27F57CB50036AD89 /* Parse.swift in Sources */,
+				AD731C97288E89D6006D6EB8 /* MediaBrowserItemModel.swift in Sources */,
 				ADF36DF527510F79008BA1DB /* AppDelegate.swift in Sources */,
+				AD731C98288E89D6006D6EB8 /* MediaBrowserTopBar.swift in Sources */,
+				AD731CA1288E96EB006D6EB8 /* BrowserTestSwiftViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +473,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -423,6 +493,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cn.ebamboo.Carrot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Carrot/Test/MediaBrowser/Carrot-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -434,6 +506,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -453,6 +526,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cn.ebamboo.Carrot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Carrot/Test/MediaBrowser/Carrot-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

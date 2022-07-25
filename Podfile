@@ -7,6 +7,7 @@ target 'Carrot' do
   pod 'Alamofire'
   pod 'KakaJSON'
   pod 'SDWebImage'
+  pod 'BBPlayerView'
   pod 'MBProgressHUD'
 
 end

@@ -10,7 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    let titles = ["FlowImageView"]
+    let titles = ["FlowImageView", "Browser Swift", "Browser OC"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +38,14 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: false)
         if indexPath.row == 0 {
             navigationController?.pushViewController(FlowImageViewController(), animated: true)
+            return
+        }
+        if indexPath.row == 1 {
+            navigationController?.pushViewController(BrowserTestSwiftViewController(), animated: true)
+            return
+        }
+        if indexPath.row == 2 {
+            navigationController?.pushViewController(BrowserTestOCViewController(), animated: true)
             return
         }
     }
