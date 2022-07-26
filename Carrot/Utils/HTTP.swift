@@ -98,6 +98,10 @@ extension HTTP {
             }
         }, to: request.url, headers: HTTPHeaders(request.headers))
         task.uploadProgress(closure: progressHandler)
+        task.responseData { response in
+            printResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result)
+            parseResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result, completionHandler: completionHandler)
+        }
         return task
     }
     /// download request
@@ -134,6 +138,10 @@ extension HTTP {
             }
         }
         task.downloadProgress(closure: progressHandler)
+        task.responseData { response in
+            printResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result)
+            parseResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result, completionHandler: completionHandler)
+        }
         return task
     }
 }

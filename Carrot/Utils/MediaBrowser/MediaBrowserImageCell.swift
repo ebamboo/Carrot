@@ -143,7 +143,7 @@ extension MediaBrowserImageCell: UIScrollViewDelegate {
     
 }
 
-extension MediaBrowserImageCell {
+private extension MediaBrowserImageCell {
     
     // 使 scrollView 恢复初始状态并设置该状态下
     // scrollView 的 content size 和 imageView 的 frame

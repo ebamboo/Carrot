@@ -112,7 +112,6 @@
 				AD731CA4288E96FF006D6EB8 /* BrowserTestOCViewController.h */,
 				AD731CA5288E96FF006D6EB8 /* BrowserTestOCViewController.m */,
 				AD731CA6288E96FF006D6EB8 /* BrowserTestOCViewController.xib */,
-				AD731CA3288E96FE006D6EB8 /* Carrot-Bridging-Header.h */,
 			);
 			path = MediaBrowser;
 			sourceTree = "<group>";
@@ -142,6 +141,7 @@
 				ADF36E21275370A4008BA1DB /* Test */,
 				ADF36DF427510F79008BA1DB /* AppDelegate.swift */,
 				ADF36DF827510F79008BA1DB /* ViewController.swift */,
+				AD731CA3288E96FE006D6EB8 /* Carrot-Bridging-Header.h */,
 				ADF36DFA27510F79008BA1DB /* Main.storyboard */,
 				ADF36DFD27510F7B008BA1DB /* Assets.xcassets */,
 				ADF36DFF27510F7B008BA1DB /* LaunchScreen.storyboard */,
@@ -494,7 +494,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cn.ebamboo.Carrot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Carrot/Test/MediaBrowser/Carrot-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Carrot/Carrot-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -528,7 +528,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cn.ebamboo.Carrot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Carrot/Test/MediaBrowser/Carrot-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Carrot/Carrot-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

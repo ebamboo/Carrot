@@ -2,6 +2,7 @@
 //  Created by ebamboo on 2021/5/17.
 //
 
+import UIKit
 import MBProgressHUD
 
 extension UIView {

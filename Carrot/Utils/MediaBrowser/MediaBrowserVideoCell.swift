@@ -172,7 +172,7 @@ extension MediaBrowserVideoCell: BBPlayerViewDelegate {
     
 }
 
-extension MediaBrowserVideoCell {
+private extension MediaBrowserVideoCell {
     
     var browser: MediaBrowser? {
         var tempSuperview = superview

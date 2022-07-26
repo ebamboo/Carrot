@@ -40,29 +40,23 @@ class BrowserTestSwiftViewController: UIViewController {
 
 
     @IBAction func testAction(_ sender: Any) {
+
         
-        
-//        view.show(message: "hhhhh")
-        view.show(message: "fjskfls", detail: "汉语优雅", last: 4) {
-            print("do some thing when end")
+        let browser = MediaBrowser()
+        browser.itemList = itemList
+        browser.onDidShowMedia { index, titleLabel, detailLabel in
+
+            let titleArr = (1...Int.random(in: 1...200)).map { _ in "恭喜" }
+            titleLabel.text = titleArr.reduce("", { partialResult, item in
+                partialResult + item
+            })
+
+            let detailArr = (1...Int.random(in: 1...200)).map { _ in "发财" }
+            detailLabel.text = detailArr.reduce("", { partialResult, item in
+                partialResult + item
+            })
         }
-        
-        
-//        let browser = MediaBrowser()
-//        browser.itemList = itemList
-//        browser.onDidShowMedia { index, titleLabel, detailLabel in
-//
-//            let titleArr = (1...Int.random(in: 1...200)).map { _ in "恭喜" }
-//            titleLabel.text = titleArr.reduce("", { partialResult, item in
-//                partialResult + item
-//            })
-//
-//            let detailArr = (1...Int.random(in: 1...200)).map { _ in "发财" }
-//            detailLabel.text = detailArr.reduce("", { partialResult, item in
-//                partialResult + item
-//            })
-//        }
-//        browser.open(on: navigationController!.view, at: 2)
+        browser.open(on: navigationController!.view, at: 2)
         
     }
 

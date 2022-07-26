@@ -6,7 +6,7 @@ import Foundation
 
 class MediaBrowserCellManager {
     
-    var managedCells = NSPointerArray.weakObjects()
+    private var managedCells = NSPointerArray.weakObjects()
     
     /// 添加播放视频的 cell，表示管理该 cell
     func manage(_ cell: MediaBrowserVideoCell) {
