@@ -1,34 +1,31 @@
 //
-//  MediaBrowserOC.swift
-//  Carrot
-//
 //  Created by ebamboo on 2022/7/25.
 //
 
 import UIKit
 
-@objc class MediaBrowserItemModelOC: NSObject {
+@objc class OCMediaBrowserItemModel: NSObject {
     @objc var videoUrl: String?
     @objc var imageUrl: String?
     @objc var image: UIImage?
 }
 
-@objc class MediaBrowserOC: MediaBrowser {
+@objc class OCMediaBrowser: MediaBrowser {
 
-    @objc var oc_itemList: [MediaBrowserItemModelOC] {
+    @objc var oc_itemList: [OCMediaBrowserItemModel] {
         get {
-            let list = itemList.map { item -> MediaBrowserItemModelOC in
+            let list = itemList.map { item -> OCMediaBrowserItemModel in
                 switch item {
                 case .video(let url):
-                    let model = MediaBrowserItemModelOC()
+                    let model = OCMediaBrowserItemModel()
                     model.videoUrl = url
                     return model
                 case .webImage(let url):
-                    let model = MediaBrowserItemModelOC()
+                    let model = OCMediaBrowserItemModel()
                     model.imageUrl = url
                     return model
                 case .localImage(let img):
-                    let model = MediaBrowserItemModelOC()
+                    let model = OCMediaBrowserItemModel()
                     model.image = img
                     return model
                 }

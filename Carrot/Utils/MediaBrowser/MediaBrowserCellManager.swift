@@ -1,7 +1,4 @@
 //
-//  MediaBrowserCellManager.swift
-//  SwiftDemo06
-//
 //  Created by ebamboo on 2022/7/22.
 //
 

@@ -14,7 +14,7 @@
 		AD731C99288E89D6006D6EB8 /* MediaBrowserImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C92288E89D6006D6EB8 /* MediaBrowserImageCell.swift */; };
 		AD731C9A288E89D6006D6EB8 /* MediaBrowserBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C93288E89D6006D6EB8 /* MediaBrowserBottomBar.swift */; };
 		AD731C9B288E89D6006D6EB8 /* MediaBrowserCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C94288E89D6006D6EB8 /* MediaBrowserCellManager.swift */; };
-		AD731C9E288E8ADE006D6EB8 /* MediaBrowserOC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C9D288E8ADE006D6EB8 /* MediaBrowserOC.swift */; };
+		AD731C9E288E8ADE006D6EB8 /* OCMediaBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C9D288E8ADE006D6EB8 /* OCMediaBrowser.swift */; };
 		AD731CA1288E96EB006D6EB8 /* BrowserTestSwiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C9F288E96EB006D6EB8 /* BrowserTestSwiftViewController.swift */; };
 		AD731CA2288E96EB006D6EB8 /* BrowserTestSwiftViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD731CA0288E96EB006D6EB8 /* BrowserTestSwiftViewController.xib */; };
 		AD731CA7288E96FF006D6EB8 /* BrowserTestOCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD731CA5288E96FF006D6EB8 /* BrowserTestOCViewController.m */; };
@@ -45,7 +45,7 @@
 		AD731C92288E89D6006D6EB8 /* MediaBrowserImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaBrowserImageCell.swift; sourceTree = "<group>"; };
 		AD731C93288E89D6006D6EB8 /* MediaBrowserBottomBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaBrowserBottomBar.swift; sourceTree = "<group>"; };
 		AD731C94288E89D6006D6EB8 /* MediaBrowserCellManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaBrowserCellManager.swift; sourceTree = "<group>"; };
-		AD731C9D288E8ADE006D6EB8 /* MediaBrowserOC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaBrowserOC.swift; sourceTree = "<group>"; };
+		AD731C9D288E8ADE006D6EB8 /* OCMediaBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCMediaBrowser.swift; sourceTree = "<group>"; };
 		AD731C9F288E96EB006D6EB8 /* BrowserTestSwiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserTestSwiftViewController.swift; sourceTree = "<group>"; };
 		AD731CA0288E96EB006D6EB8 /* BrowserTestSwiftViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BrowserTestSwiftViewController.xib; sourceTree = "<group>"; };
 		AD731CA3288E96FE006D6EB8 /* Carrot-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Carrot-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -92,8 +92,8 @@
 		AD731C8D288E89BD006D6EB8 /* MediaBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				AD731C9D288E8ADE006D6EB8 /* OCMediaBrowser.swift */,
 				AD731C8E288E89D5006D6EB8 /* MediaBrowser.swift */,
-				AD731C9D288E8ADE006D6EB8 /* MediaBrowserOC.swift */,
 				AD731C91288E89D5006D6EB8 /* MediaBrowserTopBar.swift */,
 				AD731C93288E89D6006D6EB8 /* MediaBrowserBottomBar.swift */,
 				AD731C92288E89D6006D6EB8 /* MediaBrowserImageCell.swift */,
@@ -314,7 +314,7 @@
 				AD731C9A288E89D6006D6EB8 /* MediaBrowserBottomBar.swift in Sources */,
 				ADF36E122751F585008BA1DB /* FlowImageViewController.swift in Sources */,
 				AD731CA7288E96FF006D6EB8 /* BrowserTestOCViewController.m in Sources */,
-				AD731C9E288E8ADE006D6EB8 /* MediaBrowserOC.swift in Sources */,
+				AD731C9E288E8ADE006D6EB8 /* OCMediaBrowser.swift in Sources */,
 				ADF36E0E275126AB008BA1DB /* UIView+HUD.swift in Sources */,
 				AD8C5ECC27F692160008420C /* Macros.swift in Sources */,
 				ADF36E0A275125B8008BA1DB /* FlowImageView.swift in Sources */,
@@ -476,6 +476,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3Z9M53XYF8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Carrot/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -509,6 +510,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3Z9M53XYF8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Carrot/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

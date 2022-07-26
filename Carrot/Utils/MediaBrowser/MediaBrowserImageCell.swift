@@ -1,7 +1,4 @@
 //
-//  MediaBrowserImageCell.swift
-//  SwiftDemo06
-//
 //  Created by ebamboo on 2022/7/20.
 //
 

@@ -1,7 +1,4 @@
 //
-//  FlowImageView.swift
-//  Carrot
-//
 //  Created by ebamboo on 2021/11/26.
 //
 

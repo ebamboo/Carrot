@@ -1,8 +1,5 @@
 //
-//  UIView+HUD.swift
-//  SwiftTools
-//
-//  Created by 征国科技 on 2021/5/17.
+//  Created by ebamboo on 2021/5/17.
 //
 
 import MBProgressHUD
