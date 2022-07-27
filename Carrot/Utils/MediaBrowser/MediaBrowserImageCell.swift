@@ -127,24 +127,6 @@ class MediaBrowserImageCell: UICollectionViewCell {
         }
     }
     
-}
-
-extension MediaBrowserImageCell: UIScrollViewDelegate {
-    
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return imageView
-    }
-    
-    func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        let centerX = max(scrollView.bounds.width, scrollView.contentSize.width) / 2
-        let centerY = max(scrollView.bounds.height, scrollView.contentSize.height) / 2
-        imageView.center = CGPoint(x: centerX, y: centerY)
-    }
-    
-}
-
-private extension MediaBrowserImageCell {
-    
     // 使 scrollView 恢复初始状态并设置该状态下
     // scrollView 的 content size 和 imageView 的 frame
     func resetScrollView() {
@@ -162,6 +144,20 @@ private extension MediaBrowserImageCell {
         scrollView.contentSize = size
         imageView.bounds = CGRect(origin: .zero, size: size)
         imageView.center = CGPoint(x: scrollView.bounds.width/2, y: scrollView.bounds.height/2)
+    }
+    
+}
+
+extension MediaBrowserImageCell: UIScrollViewDelegate {
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return imageView
+    }
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        let centerX = max(scrollView.bounds.width, scrollView.contentSize.width) / 2
+        let centerY = max(scrollView.bounds.height, scrollView.contentSize.height) / 2
+        imageView.center = CGPoint(x: centerX, y: centerY)
     }
     
 }

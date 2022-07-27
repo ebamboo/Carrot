@@ -124,7 +124,7 @@ class MediaBrowser: UIView {
             let cell = collectionView.cellForItem(at: IndexPath(item: _currentIndex, section: 0)) as? MediaBrowserVideoCell
             cell?.tryPlay()
         default:
-            MediaBrowserCellManager.shared.pause()
+            MediaBrowserCellManager.pause()
         }
     }
     

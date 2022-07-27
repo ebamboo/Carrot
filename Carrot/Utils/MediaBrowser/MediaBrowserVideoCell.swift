@@ -11,8 +11,8 @@ class MediaBrowserVideoCell: UICollectionViewCell {
     
     func tryPlay() {
         if status == .paused {
-            MediaBrowserCellManager.shared.pause()
-            MediaBrowserCellManager.shared.manage(self)
+            MediaBrowserCellManager.pause()
+            MediaBrowserCellManager.manage(self)
             status = .playing
             playerView.bb_play()
         }
@@ -92,8 +92,8 @@ class MediaBrowserVideoCell: UICollectionViewCell {
             return
         }
         if status == .paused {
-            MediaBrowserCellManager.shared.pause()
-            MediaBrowserCellManager.shared.manage(self)
+            MediaBrowserCellManager.pause()
+            MediaBrowserCellManager.manage(self)
             status = .playing
             playerView.bb_play()
             return
@@ -149,8 +149,8 @@ extension MediaBrowserVideoCell: BBPlayerViewDelegate {
             self.status = .failure
         case .readyToPlay:
             if onShouldPlay() {
-                MediaBrowserCellManager.shared.pause()
-                MediaBrowserCellManager.shared.manage(self)
+                MediaBrowserCellManager.pause()
+                MediaBrowserCellManager.manage(self)
                 self.status = .playing
                 playerView?.bb_play()
             } else {

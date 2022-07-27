@@ -6,10 +6,9 @@ import Foundation
 
 struct MediaBrowserCellManager {
     
-    static let shared = MediaBrowserCellManager()
-    private let managedCells = NSPointerArray.weakObjects()
+    static let managedCells = NSPointerArray.weakObjects()
     
-    func manage(_ cell: MediaBrowserVideoCell) {
+    static func manage(_ cell: MediaBrowserVideoCell) {
         managedCells.compact()
         guard !managedCells.allObjects.contains(where: { item in
             return cell == (item as! MediaBrowserVideoCell)
@@ -18,7 +17,7 @@ struct MediaBrowserCellManager {
         managedCells.addPointer(pointer)
     }
     
-    func pause() {
+    static func pause() {
         managedCells.compact()
         managedCells.allObjects.forEach { item in
             (item as! MediaBrowserVideoCell).tryPause()
