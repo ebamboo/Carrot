@@ -4,9 +4,9 @@
 
 import UIKit
 
-class MediaBrowserTopBar: UIView {
+@objc class MediaBrowserTopBar: UIView {
 
-    lazy var closeBtn: UIButton = {
+    @objc lazy var closeBtn: UIButton = {
         let btn = UIButton(type: .custom)
         btn.bounds = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn.clipsToBounds = true
@@ -17,7 +17,7 @@ class MediaBrowserTopBar: UIView {
         return btn
     }()
     
-    lazy var indexLabel: UILabel = {
+    @objc lazy var indexLabel: UILabel = {
         let label = UILabel()
         label.bounds = CGRect(x: 0, y: 0, width: 120, height: 30)
         label.textAlignment = .center

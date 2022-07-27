@@ -4,9 +4,9 @@
 
 import UIKit
 
-class MediaBrowserBottomBar: UIView {
+@objc class MediaBrowserBottomBar: UIView {
     
-    lazy var titleLabel: UILabel = {
+    @objc lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
@@ -14,7 +14,7 @@ class MediaBrowserBottomBar: UIView {
         return label
     }()
     
-    lazy var detailLabel: UILabel = {
+    @objc lazy var detailLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 14)

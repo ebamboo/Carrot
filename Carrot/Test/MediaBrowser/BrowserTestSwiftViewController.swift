@@ -40,19 +40,18 @@ class BrowserTestSwiftViewController: UIViewController {
 
 
     @IBAction func testAction(_ sender: Any) {
-
         
         let browser = MediaBrowser()
         browser.itemList = itemList
-        browser.onDidShowMedia { index, titleLabel, detailLabel in
-
+        browser.onDidShowMedia { [weak self] index, topBar, bottomBar in
+            topBar.indexLabel.text = "\(index+1)/\(self?.itemList.count ?? 0)"
             let titleArr = (1...Int.random(in: 1...200)).map { _ in "恭喜" }
-            titleLabel.text = titleArr.reduce("", { partialResult, item in
+            bottomBar.titleLabel.text = titleArr.reduce("", { partialResult, item in
                 partialResult + item
             })
 
             let detailArr = (1...Int.random(in: 1...200)).map { _ in "发财" }
-            detailLabel.text = detailArr.reduce("", { partialResult, item in
+            bottomBar.detailLabel.text = detailArr.reduce("", { partialResult, item in
                 partialResult + item
             })
         }

@@ -50,13 +50,13 @@
     
     OCMediaBrowser *browser = [OCMediaBrowser new];
     browser.oc_itemList = _itemList;
-    browser.oc_onDidShowMedia = ^(NSInteger index, UILabel * titleLabel, UILabel * detailLabel) {
-        NSLog(@"index======%@", @(index));
-        titleLabel.text = @"oc ok";
-        detailLabel.text = @"哈哈哈";
+    browser.oc_onDidShowMedia = ^(NSInteger index, MediaBrowserTopBar * _Nonnull topBar, MediaBrowserBottomBar * _Nonnull bottomBar) {
+        NSLog(@"index========%@", @(index));
+        topBar.indexLabel.text = @"index";
+        bottomBar.titleLabel.text = @"oc ok";
+        bottomBar.detailLabel.text = @"哈哈哈";
     };
     [browser oc_openOn:self.navigationController.view at:2];
-    
     
 }
 

@@ -50,10 +50,12 @@ import UIKit
     }
     
     @objc var oc_currentIndex: Int {
-        return currentIndex
+        get {
+            return currentIndex
+        }
     }
     
-    @objc var oc_onDidShowMedia: ((_ index: Int, _ titleLabel: UILabel, _ detailLabel: UILabel) -> Void)? {
+    @objc var oc_onDidShowMedia: ((_ index: Int, _ topBar: MediaBrowserTopBar, _ bottomBar: MediaBrowserBottomBar) -> Void)? {
         get {
             return nil
         }

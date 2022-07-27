@@ -21,7 +21,7 @@ extension MediaBrowser {
         }
     }
     
-    func onDidShowMedia(_ handler: @escaping (_ index: Int, _ titleLabel: UILabel, _ detailLabel: UILabel) -> Void) {
+    func onDidShowMedia(_ handler: @escaping (_ index: Int, _ topBar: MediaBrowserTopBar, _ bottomBar: MediaBrowserBottomBar) -> Void) {
         _onDidShowMedia = handler
     }
     
@@ -31,57 +31,20 @@ extension MediaBrowser {
         _currentIndex = index
         collectionView.reloadData()
         collectionView.scrollToItem(at: IndexPath(item: _currentIndex, section: 0), at: .centeredHorizontally, animated: false)
+        didEndScrolling()
     }
     
 }
 
 class MediaBrowser: UIView {
     
+    // MARK: - data
+    
     private var _itemList: [MediaBrowserItemModel] = []
-    private var _currentIndex = 0 {
-        didSet {
-            topBar.indexLabel.text = "\(_currentIndex+1)/\(_itemList.count)"
-            _onDidShowMedia?(_currentIndex, bottomBar.titleLabel, bottomBar.detailLabel)
-        }
-    }
-    private var _onDidShowMedia: ((_ index: Int, _ titleLabel: UILabel, _ detailLabel: UILabel) -> Void)?
+    private var _currentIndex = 0
+    private var _onDidShowMedia: ((_ index: Int, _ topBar: MediaBrowserTopBar, _ bottomBar: MediaBrowserBottomBar) -> Void)?
     
-    @objc override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        commonInit()
-    }
-    
-    private func commonInit() {
-        addSubview(collectionView)
-        addSubview(topBar)
-        topBar.translatesAutoresizingMaskIntoConstraints = false
-        topBar.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        topBar.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        topBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-        topBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        addSubview(bottomBar)
-        bottomBar.translatesAutoresizingMaskIntoConstraints = false
-        bottomBar.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        bottomBar.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        bottomBar.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
-        clipsToBounds = true
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        frame = superview?.bounds ?? .zero
-        var collectionFrame = bounds
-        collectionFrame.size.width += 10
-        collectionView.frame = collectionFrame
-        let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
-        layout?.itemSize = bounds.size
-        collectionView.scrollToItem(at: IndexPath(item: _currentIndex, section: 0), at: .centeredHorizontally, animated: false)
-    }
+    // MARK: - ui
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -114,6 +77,57 @@ class MediaBrowser: UIView {
         return bar
     }()
     
+    // MARK: - life circle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        frame = superview?.bounds ?? .zero
+        var collectionFrame = bounds
+        collectionFrame.size.width += 10
+        collectionView.frame = collectionFrame
+        let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+        layout?.itemSize = bounds.size
+        collectionView.scrollToItem(at: IndexPath(item: _currentIndex, section: 0), at: .centeredHorizontally, animated: false)
+    }
+    
+    private func commonInit() {
+        addSubview(collectionView)
+        addSubview(topBar)
+        topBar.translatesAutoresizingMaskIntoConstraints = false
+        topBar.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        topBar.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        topBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
+        topBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        addSubview(bottomBar)
+        bottomBar.translatesAutoresizingMaskIntoConstraints = false
+        bottomBar.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        bottomBar.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        bottomBar.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
+        clipsToBounds = true
+    }
+    
+    private func didEndScrolling() {
+        _onDidShowMedia?(_currentIndex, topBar, bottomBar)
+        let info = _itemList[_currentIndex]
+        switch info {
+        case .video:
+            let cell = collectionView.cellForItem(at: IndexPath(item: _currentIndex, section: 0)) as? MediaBrowserVideoCell
+            cell?.tryPlay()
+        default:
+            MediaBrowserCellManager.shared.pause()
+        }
+    }
+    
 }
 
 extension MediaBrowser: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -143,30 +157,14 @@ extension MediaBrowser: UICollectionViewDataSource, UICollectionViewDelegateFlow
         if !decelerate { // 停止拖拽，不再滑动
             let indexF = scrollView.contentOffset.x / scrollView.bounds.size.width
             _currentIndex = Int(indexF + 0.5)
-            
-            let info = _itemList[_currentIndex]
-            switch info {
-            case .video:
-                let cell = collectionView.cellForItem(at: IndexPath(item: _currentIndex, section: 0)) as? MediaBrowserVideoCell
-                cell?.tryPlay()
-            default:
-                MediaBrowserCellManager.shared.pause()
-            }
+            didEndScrolling()
         }
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) { // 停止拖拽，滑动一段距离后不在滑动
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) { // 停止拖拽，滑动一段距离后不再滑动
         let indexF = scrollView.contentOffset.x / scrollView.bounds.size.width
         _currentIndex = Int(indexF + 0.5)
-        
-        let info = _itemList[_currentIndex]
-        switch info {
-        case .video:
-            let cell = collectionView.cellForItem(at: IndexPath(item: _currentIndex, section: 0)) as? MediaBrowserVideoCell
-            cell?.tryPlay()
-        default:
-            MediaBrowserCellManager.shared.pause()
-        }
+        didEndScrolling()
     }
     
 }
