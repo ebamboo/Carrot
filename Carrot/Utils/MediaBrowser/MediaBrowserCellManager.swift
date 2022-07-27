@@ -4,13 +4,11 @@
 
 import Foundation
 
-/// ！！！确保所有播放视频的 cell 都被管理！！！
 struct MediaBrowserCellManager {
     
     static let shared = MediaBrowserCellManager()
     private let managedCells = NSPointerArray.weakObjects()
     
-    /// 添加播放视频的 cell，表示管理该 cell
     func manage(_ cell: MediaBrowserVideoCell) {
         managedCells.compact()
         guard !managedCells.allObjects.contains(where: { item in
@@ -20,32 +18,11 @@ struct MediaBrowserCellManager {
         managedCells.addPointer(pointer)
     }
     
-    /// 移除 cell，表示不再管理该 cell
-    func remove(_ cell: MediaBrowserVideoCell) {
-        managedCells.compact()
-        guard let index = managedCells.allObjects.firstIndex(where: { item in
-            return cell == (item as! MediaBrowserVideoCell)
-        }) else { return }
-        managedCells.removePointer(at: index)
-    }
-    
-    /// 使所有 cell 暂停播放，一般当某个 cell 播放视频时，其他 cells 应该暂停播放
-    func pauseAllCells() {
+    func pause() {
         managedCells.compact()
         managedCells.allObjects.forEach { item in
             (item as! MediaBrowserVideoCell).tryPause()
         }
-    }
-    
-    /// 是否有正在播放视频的 cell
-    func someOneIsPlaying() -> Bool {
-        managedCells.compact()
-        for item in managedCells.allObjects {
-            if (item as! MediaBrowserVideoCell).status == .playing {
-                return true
-            }
-        }
-        return false
     }
     
 }

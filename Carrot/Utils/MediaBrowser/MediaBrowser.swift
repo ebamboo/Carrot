@@ -150,7 +150,7 @@ extension MediaBrowser: UICollectionViewDataSource, UICollectionViewDelegateFlow
                 let cell = collectionView.cellForItem(at: IndexPath(item: _currentIndex, section: 0)) as? MediaBrowserVideoCell
                 cell?.tryPlay()
             default:
-                MediaBrowserCellManager.shared.pauseAllCells()
+                MediaBrowserCellManager.shared.pause()
             }
         }
     }
@@ -165,7 +165,7 @@ extension MediaBrowser: UICollectionViewDataSource, UICollectionViewDelegateFlow
             let cell = collectionView.cellForItem(at: IndexPath(item: _currentIndex, section: 0)) as? MediaBrowserVideoCell
             cell?.tryPlay()
         default:
-            MediaBrowserCellManager.shared.pauseAllCells()
+            MediaBrowserCellManager.shared.pause()
         }
     }
     

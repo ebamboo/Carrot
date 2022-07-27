@@ -5,16 +5,19 @@
 import UIKit
 import BBPlayerView
 
-extension MediaBrowserVideoCell {
+class MediaBrowserVideoCell: UICollectionViewCell {
+    
+    // MARK: - public
     
     func tryPlay() {
         if status == .paused {
-            MediaBrowserCellManager.shared.pauseAllCells()
+            MediaBrowserCellManager.shared.pause()
             MediaBrowserCellManager.shared.manage(self)
             status = .playing
             playerView.bb_play()
         }
     }
+    
     func tryPause() {
         if status == .playing {
             status = .paused
@@ -22,21 +25,18 @@ extension MediaBrowserVideoCell {
         }
     }
     
-}
-
-class MediaBrowserVideoCell: UICollectionViewCell {
-    
     // MARK: - data
     
     var onShouldPlay: (() -> Bool)!
     
     var mediaInfo: MediaBrowserItemModel! {
         didSet {
-            guard case .video(let url) = mediaInfo else {
-                status = .failure
-                return
+            switch mediaInfo {
+            case .video(let url):
+                playerView.bb_loadData(withURL: url)
+            default:
+                break
             }
-            playerView.bb_loadData(withURL: url)
         }
     }
     
@@ -92,7 +92,7 @@ class MediaBrowserVideoCell: UICollectionViewCell {
             return
         }
         if status == .paused {
-            MediaBrowserCellManager.shared.pauseAllCells()
+            MediaBrowserCellManager.shared.pause()
             MediaBrowserCellManager.shared.manage(self)
             status = .playing
             playerView.bb_play()
@@ -149,7 +149,7 @@ extension MediaBrowserVideoCell: BBPlayerViewDelegate {
             self.status = .failure
         case .readyToPlay:
             if onShouldPlay() {
-                MediaBrowserCellManager.shared.pauseAllCells()
+                MediaBrowserCellManager.shared.pause()
                 MediaBrowserCellManager.shared.manage(self)
                 self.status = .playing
                 playerView?.bb_play()

@@ -136,8 +136,8 @@ extension MediaBrowserImageCell: UIScrollViewDelegate {
     }
     
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        let centerX = (scrollView.bounds.width > scrollView.contentSize.width) ? scrollView.bounds.width/2 : scrollView.contentSize.width/2
-        let centerY = (scrollView.bounds.height > scrollView.contentSize.height) ? scrollView.bounds.height/2 : scrollView.contentSize.height/2
+        let centerX = max(scrollView.bounds.width, scrollView.contentSize.width) / 2
+        let centerY = max(scrollView.bounds.height, scrollView.contentSize.height) / 2
         imageView.center = CGPoint(x: centerX, y: centerY)
     }
     
@@ -150,9 +150,9 @@ private extension MediaBrowserImageCell {
     func resetScrollView() {
         scrollView.setZoomScale(scrollView.minimumZoomScale, animated: false)
         var size = imageView.image?.size ?? .zero
-        if size.width > bounds.width || size.height > bounds.height {
+        if size.width > scrollView.bounds.width || size.height > scrollView.bounds.height { // 图片尺寸超出 scrollView.bounds.size
             let imageSize = imageView.image?.size ?? .zero
-            let usaleSize = bounds.size
+            let usaleSize = scrollView.bounds.size
             if imageSize.height * usaleSize.width / imageSize.width > usaleSize.height { // 图片高比较 "大"
                 size = CGSize(width: imageSize.width * usaleSize.height / imageSize.height, height: usaleSize.height)
             } else { // 图片宽比较 "大"
