@@ -161,7 +161,7 @@ private extension MediaBrowserImageCell {
         }
         scrollView.contentSize = size
         imageView.bounds = CGRect(origin: .zero, size: size)
-        imageView.center = scrollView.center
+        imageView.center = CGPoint(x: scrollView.bounds.width/2, y: scrollView.bounds.height/2)
     }
     
 }

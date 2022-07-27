@@ -33,12 +33,6 @@ extension MediaBrowser {
         collectionView.scrollToItem(at: IndexPath(item: _currentIndex, section: 0), at: .centeredHorizontally, animated: false)
     }
     
-    var cellManager: MediaBrowserCellManager {
-        get {
-            return _cellManager
-        }
-    }
-    
 }
 
 class MediaBrowser: UIView {
@@ -51,7 +45,6 @@ class MediaBrowser: UIView {
         }
     }
     private var _onDidShowMedia: ((_ index: Int, _ titleLabel: UILabel, _ detailLabel: UILabel) -> Void)?
-    private var _cellManager = MediaBrowserCellManager()
     
     @objc override init(frame: CGRect) {
         super.init(frame: frame)
@@ -112,9 +105,7 @@ class MediaBrowser: UIView {
     
     private lazy var topBar: MediaBrowserTopBar = {
         let bar  = MediaBrowserTopBar()
-        bar.onClose = { [weak self] in
-            self?.removeFromSuperview()
-        }
+        bar.closeBtn.addTarget(self, action: #selector(removeFromSuperview), for: .touchUpInside)
         return bar
     }()
     
@@ -159,7 +150,7 @@ extension MediaBrowser: UICollectionViewDataSource, UICollectionViewDelegateFlow
                 let cell = collectionView.cellForItem(at: IndexPath(item: _currentIndex, section: 0)) as? MediaBrowserVideoCell
                 cell?.tryPlay()
             default:
-                _cellManager.pauseAllCells()
+                MediaBrowserCellManager.shared.pauseAllCells()
             }
         }
     }
@@ -174,7 +165,7 @@ extension MediaBrowser: UICollectionViewDataSource, UICollectionViewDelegateFlow
             let cell = collectionView.cellForItem(at: IndexPath(item: _currentIndex, section: 0)) as? MediaBrowserVideoCell
             cell?.tryPlay()
         default:
-            _cellManager.pauseAllCells()
+            MediaBrowserCellManager.shared.pauseAllCells()
         }
     }
     

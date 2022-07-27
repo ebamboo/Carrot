@@ -4,9 +4,11 @@
 
 import Foundation
 
-class MediaBrowserCellManager {
+/// ！！！确保所有播放视频的 cell 都被管理！！！
+struct MediaBrowserCellManager {
     
-    private var managedCells = NSPointerArray.weakObjects()
+    static let shared = MediaBrowserCellManager()
+    private let managedCells = NSPointerArray.weakObjects()
     
     /// 添加播放视频的 cell，表示管理该 cell
     func manage(_ cell: MediaBrowserVideoCell) {

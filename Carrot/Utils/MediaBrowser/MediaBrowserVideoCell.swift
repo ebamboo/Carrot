@@ -9,13 +9,12 @@ extension MediaBrowserVideoCell {
     
     func tryPlay() {
         if status == .paused {
-            browser?.cellManager.pauseAllCells()
-            browser?.cellManager.manage(self)
+            MediaBrowserCellManager.shared.pauseAllCells()
+            MediaBrowserCellManager.shared.manage(self)
             status = .playing
             playerView.bb_play()
         }
     }
-    
     func tryPause() {
         if status == .playing {
             status = .paused
@@ -93,8 +92,8 @@ class MediaBrowserVideoCell: UICollectionViewCell {
             return
         }
         if status == .paused {
-            browser?.cellManager.pauseAllCells()
-            browser?.cellManager.manage(self)
+            MediaBrowserCellManager.shared.pauseAllCells()
+            MediaBrowserCellManager.shared.manage(self)
             status = .playing
             playerView.bb_play()
             return
@@ -150,8 +149,8 @@ extension MediaBrowserVideoCell: BBPlayerViewDelegate {
             self.status = .failure
         case .readyToPlay:
             if onShouldPlay() {
-                browser?.cellManager.pauseAllCells()
-                browser?.cellManager.manage(self)
+                MediaBrowserCellManager.shared.pauseAllCells()
+                MediaBrowserCellManager.shared.manage(self)
                 self.status = .playing
                 playerView?.bb_play()
             } else {
@@ -168,21 +167,6 @@ extension MediaBrowserVideoCell: BBPlayerViewDelegate {
                 playerView?.bb_play()
             })
         }
-    }
-    
-}
-
-private extension MediaBrowserVideoCell {
-    
-    var browser: MediaBrowser? {
-        var tempSuperview = superview
-        while tempSuperview != nil {
-            if tempSuperview!.isKind(of: MediaBrowser.self) {
-                return tempSuperview as? MediaBrowser
-            }
-            tempSuperview = tempSuperview?.superview
-        }
-        return nil
     }
     
 }
