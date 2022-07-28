@@ -130,7 +130,7 @@ class MediaBrowser: UIView {
     
 }
 
-extension MediaBrowser: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MediaBrowser: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return _itemList.count
@@ -152,6 +152,10 @@ extension MediaBrowser: UICollectionViewDataSource, UICollectionViewDelegateFlow
             return cell
         }
     }
+    
+}
+
+extension MediaBrowser: UICollectionViewDelegate {
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate { // 停止拖拽，不再滑动
