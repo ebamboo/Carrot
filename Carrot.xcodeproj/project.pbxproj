@@ -211,8 +211,8 @@
 		ADF36E21275370A4008BA1DB /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				ADC94CD028F3AB65008569A4 /* MediaView */,
 				AD731C9C288E8A86006D6EB8 /* MediaBrowser */,
+				ADC94CD028F3AB65008569A4 /* MediaView */,
 				ADF36E0F2751F560008BA1DB /* FlowImageView */,
 			);
 			path = Test;
