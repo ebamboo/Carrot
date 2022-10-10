@@ -10,7 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    let titles = ["FlowImageView", "Browser Swift", "Browser OC"]
+    let titles = ["FlowImageView", "Browser Swift", "Browser OC", "Media View"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +46,10 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         }
         if indexPath.row == 2 {
             navigationController?.pushViewController(BrowserTestOCViewController(), animated: true)
+            return
+        }
+        if indexPath.row == 3 {
+            navigationController?.pushViewController(MediaViewTestViewController(), animated: true)
             return
         }
     }

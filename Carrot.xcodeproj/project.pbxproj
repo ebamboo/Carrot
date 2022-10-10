@@ -21,6 +21,13 @@
 		AD731CA8288E96FF006D6EB8 /* BrowserTestOCViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD731CA6288E96FF006D6EB8 /* BrowserTestOCViewController.xib */; };
 		AD8C5ECC27F692160008420C /* Macros.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8C5ECB27F692160008420C /* Macros.swift */; };
 		ADBBCB9D27F57CB50036AD89 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBBCB9C27F57CB50036AD89 /* Parse.swift */; };
+		ADC94CC728F2CE9A008569A4 /* MediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC94CC628F2CE9A008569A4 /* MediaView.swift */; };
+		ADC94CC928F2D487008569A4 /* MediaViewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC94CC828F2D487008569A4 /* MediaViewImageCell.swift */; };
+		ADC94CCB28F2D4A1008569A4 /* MediaViewVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC94CCA28F2D4A1008569A4 /* MediaViewVideoCell.swift */; };
+		ADC94CCD28F3A7FA008569A4 /* OCMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC94CCC28F3A7FA008569A4 /* OCMediaView.swift */; };
+		ADC94CCF28F3A81D008569A4 /* MediaViewCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC94CCE28F3A81D008569A4 /* MediaViewCellManager.swift */; };
+		ADC94CD328F3AB91008569A4 /* MediaViewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC94CD128F3AB91008569A4 /* MediaViewTestViewController.swift */; };
+		ADC94CD428F3AB91008569A4 /* MediaViewTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADC94CD228F3AB91008569A4 /* MediaViewTestViewController.xib */; };
 		ADF36DF527510F79008BA1DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36DF427510F79008BA1DB /* AppDelegate.swift */; };
 		ADF36DF927510F79008BA1DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF36DF827510F79008BA1DB /* ViewController.swift */; };
 		ADF36DFC27510F79008BA1DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADF36DFA27510F79008BA1DB /* Main.storyboard */; };
@@ -54,6 +61,13 @@
 		AD731CA6288E96FF006D6EB8 /* BrowserTestOCViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BrowserTestOCViewController.xib; sourceTree = "<group>"; };
 		AD8C5ECB27F692160008420C /* Macros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Macros.swift; sourceTree = "<group>"; };
 		ADBBCB9C27F57CB50036AD89 /* Parse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
+		ADC94CC628F2CE9A008569A4 /* MediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaView.swift; sourceTree = "<group>"; };
+		ADC94CC828F2D487008569A4 /* MediaViewImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaViewImageCell.swift; sourceTree = "<group>"; };
+		ADC94CCA28F2D4A1008569A4 /* MediaViewVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaViewVideoCell.swift; sourceTree = "<group>"; };
+		ADC94CCC28F3A7FA008569A4 /* OCMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCMediaView.swift; sourceTree = "<group>"; };
+		ADC94CCE28F3A81D008569A4 /* MediaViewCellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaViewCellManager.swift; sourceTree = "<group>"; };
+		ADC94CD128F3AB91008569A4 /* MediaViewTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaViewTestViewController.swift; sourceTree = "<group>"; };
+		ADC94CD228F3AB91008569A4 /* MediaViewTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MediaViewTestViewController.xib; sourceTree = "<group>"; };
 		ADF36DF127510F79008BA1DB /* Carrot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carrot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADF36DF427510F79008BA1DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADF36DF827510F79008BA1DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -116,6 +130,27 @@
 			path = MediaBrowser;
 			sourceTree = "<group>";
 		};
+		ADC94CC528F2CE73008569A4 /* MediaView */ = {
+			isa = PBXGroup;
+			children = (
+				ADC94CCC28F3A7FA008569A4 /* OCMediaView.swift */,
+				ADC94CC628F2CE9A008569A4 /* MediaView.swift */,
+				ADC94CC828F2D487008569A4 /* MediaViewImageCell.swift */,
+				ADC94CCA28F2D4A1008569A4 /* MediaViewVideoCell.swift */,
+				ADC94CCE28F3A81D008569A4 /* MediaViewCellManager.swift */,
+			);
+			path = MediaView;
+			sourceTree = "<group>";
+		};
+		ADC94CD028F3AB65008569A4 /* MediaView */ = {
+			isa = PBXGroup;
+			children = (
+				ADC94CD128F3AB91008569A4 /* MediaViewTestViewController.swift */,
+				ADC94CD228F3AB91008569A4 /* MediaViewTestViewController.xib */,
+			);
+			path = MediaView;
+			sourceTree = "<group>";
+		};
 		ADF36DE827510F79008BA1DB = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				AD731C8D288E89BD006D6EB8 /* MediaBrowser */,
+				ADC94CC528F2CE73008569A4 /* MediaView */,
 				AD8C5ECB27F692160008420C /* Macros.swift */,
 				ADF36E0D275126AB008BA1DB /* UIView+HUD.swift */,
 				ADF36E0B27512667008BA1DB /* HTTP.swift */,
@@ -175,6 +211,7 @@
 		ADF36E21275370A4008BA1DB /* Test */ = {
 			isa = PBXGroup;
 			children = (
+				ADC94CD028F3AB65008569A4 /* MediaView */,
 				AD731C9C288E8A86006D6EB8 /* MediaBrowser */,
 				ADF36E0F2751F560008BA1DB /* FlowImageView */,
 			);
@@ -255,6 +292,7 @@
 				AD731CA2288E96EB006D6EB8 /* BrowserTestSwiftViewController.xib in Resources */,
 				ADF36E132751F585008BA1DB /* FlowImageViewController.xib in Resources */,
 				ADF36DFC27510F79008BA1DB /* Main.storyboard in Resources */,
+				ADC94CD428F3AB91008569A4 /* MediaViewTestViewController.xib in Resources */,
 				AD731CA8288E96FF006D6EB8 /* BrowserTestOCViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,10 +348,13 @@
 			files = (
 				AD731C9B288E89D6006D6EB8 /* MediaBrowserCellManager.swift in Sources */,
 				ADF36DF927510F79008BA1DB /* ViewController.swift in Sources */,
+				ADC94CCB28F2D4A1008569A4 /* MediaViewVideoCell.swift in Sources */,
+				ADC94CC728F2CE9A008569A4 /* MediaView.swift in Sources */,
 				ADF36E0C27512667008BA1DB /* HTTP.swift in Sources */,
 				AD731C9A288E89D6006D6EB8 /* MediaBrowserBottomBar.swift in Sources */,
 				ADF36E122751F585008BA1DB /* FlowImageViewController.swift in Sources */,
 				AD731CA7288E96FF006D6EB8 /* BrowserTestOCViewController.m in Sources */,
+				ADC94CCF28F3A81D008569A4 /* MediaViewCellManager.swift in Sources */,
 				AD731C9E288E8ADE006D6EB8 /* OCMediaBrowser.swift in Sources */,
 				ADF36E0E275126AB008BA1DB /* UIView+HUD.swift in Sources */,
 				AD8C5ECC27F692160008420C /* Macros.swift in Sources */,
@@ -323,7 +364,10 @@
 				AD731C99288E89D6006D6EB8 /* MediaBrowserImageCell.swift in Sources */,
 				ADBBCB9D27F57CB50036AD89 /* Parse.swift in Sources */,
 				AD731C97288E89D6006D6EB8 /* MediaBrowserItemModel.swift in Sources */,
+				ADC94CD328F3AB91008569A4 /* MediaViewTestViewController.swift in Sources */,
+				ADC94CCD28F3A7FA008569A4 /* OCMediaView.swift in Sources */,
 				ADF36DF527510F79008BA1DB /* AppDelegate.swift in Sources */,
+				ADC94CC928F2D487008569A4 /* MediaViewImageCell.swift in Sources */,
 				AD731C98288E89D6006D6EB8 /* MediaBrowserTopBar.swift in Sources */,
 				AD731CA1288E96EB006D6EB8 /* BrowserTestSwiftViewController.swift in Sources */,
 			);
