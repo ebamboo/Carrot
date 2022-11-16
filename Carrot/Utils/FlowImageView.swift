@@ -5,76 +5,94 @@
 import UIKit
 
 /// 网格样式展示图片、添加图片、删除图片
-/// 展示网络图片时，只需要实现 var showWebImage: ((_ imageView: UIImageView, _ url: String) -> Void)? 即可
+/// 展示网络图片时，只需要实现 var howShowWebImage: ((_ imageView: UIImageView, _ url: String) -> Void)? 即可
 class FlowImageView: UICollectionView {
-    
-    // MARK: - 布局配置
-    
-    /// 是否自适应大小
-    /// 如果使用，则布局表现和 UILabel 设置多行之后的表现类似
-    /// ！！！ 注意自适应大小布局时，itemSizeReader 不可使用本身布局信息，否则可能导致循环调用  ！！！
-    @IBInspectable var autosize: Bool = false
-    /// 滑动方向，默认垂直方向 vertical。
-    var direction: UICollectionView.ScrollDirection {
-        get {
-            let layout = collectionViewLayout as! UICollectionViewFlowLayout
-            return layout.scrollDirection
-        }
-        set {
-            let layout = collectionViewLayout as! UICollectionViewFlowLayout
-            layout.scrollDirection = newValue
-        }
-    }
-    /// 区域内间距
-    var degeInsets: UIEdgeInsets = UIEdgeInsets.zero
-    /// item 最小间距
-    @IBInspectable var minItemSpacing: CGFloat = 10.0
-    /// line 最小间距
-    @IBInspectable var minLineSpacing: CGFloat = 10.0
-    /// 获取 itemSize 方法器
-    /// 一般地，参照默认实现的获取器按需实现特定情况下的相关功能
-    /// ！！！ 注意自适应大小布局时，不可用使用 view 相关布局信息 ！！！
-    var itemSizeReader: (FlowImageView) -> CGSize = { view in
-        if view.autosize {
-            return CGSize(width: 80, height: 80)
-        } else {
-            let lineNum = 4.0 // 垂直滑动时，每行 item 个数；水平滑动时，每列 item 个数；
-            switch view.direction {
-            case .vertical: // 垂直滑动布局
-                let spacing = view.degeInsets.left + view.degeInsets.right + view.minItemSpacing * (lineNum - 1)
-                let side = (view.bounds.width - spacing) / lineNum - 1
-                return CGSize(width: side, height: side)
-            default: // 水平滑动布局
-                let spacing = view.degeInsets.top + view.degeInsets.bottom + view.minItemSpacing * CGFloat(lineNum - 1)
-                let side = (view.bounds.height - spacing) / lineNum - 1
-                return CGSize(width: side, height: side)
-            }
-        }
-    }
     
     // MARK: - 功能配置
     
+    /// 是否自适应大小
+    /// 如果为 true，则布局表现和 UILabel 设置多行之后的自适应布局表现类似
+    @IBInspectable var autosize: Bool = false
     /// 最大 image 数量范围：[1,  ∞]
     @IBInspectable var maxImageCount: Int = 9
+    
     /// 是否具备删除图片功能
     @IBInspectable var deletable: Bool = true
     /// 删除按钮图片 30 · 30
     @IBInspectable var deletableImage: UIImage? = UIImage(named: "bb-image-deletion")
+    
     /// 是否具备添加图片功能
     @IBInspectable var addable: Bool = true
     /// 添加按钮图片
     @IBInspectable var addableImage: UIImage? = UIImage(named: "bb-image-addition")
     
+    // MARK: - 布局配置
+    
+    /// 滑动方向，默认垂直方向 vertical。
+    var direction = UICollectionView.ScrollDirection.vertical {
+        didSet {
+            guard let layout = collectionViewLayout as? FlowImageViewLayout else {  return }
+            layout.scrollDirection = direction
+        }
+    }
+    
+    /// 区域内间距
+    var degeInsets = UIEdgeInsets.zero {
+        didSet {
+            guard let layout = collectionViewLayout as? FlowImageViewLayout else {  return }
+            layout.sectionInset = degeInsets
+        }
+    }
+    
+    /// item 最小间距
+    var minItemSpacing = 10.0 {
+        didSet {
+            guard let layout = collectionViewLayout as? FlowImageViewLayout else {  return }
+            layout.minimumInteritemSpacing = minItemSpacing
+        }
+    }
+    
+    /// line 最小间距
+    var minLineSpacing = 10.0 {
+        didSet {
+            guard let layout = collectionViewLayout as? FlowImageViewLayout else {  return }
+            layout.minimumLineSpacing = minItemSpacing
+        }
+    }
+    
+    /// 获取 itemSize 方法器
+    var itemSizeReader: (FlowImageView) -> CGSize = { view in
+        let lineNum = 4.0 // 垂直滑动时，每行 item 个数；水平滑动时，每列 item 个数；
+        switch view.direction {
+        case .vertical: // 垂直滑动布局
+            let spacing = view.degeInsets.left + view.degeInsets.right + view.minItemSpacing * (lineNum - 1)
+            let side = (view.bounds.width - spacing) / lineNum - 1
+            return CGSize(width: side, height: side)
+        default: // 水平滑动布局
+            let spacing = view.degeInsets.top + view.degeInsets.bottom + view.minItemSpacing * CGFloat(lineNum - 1)
+            let side = (view.bounds.height - spacing) / lineNum - 1
+            return CGSize(width: side, height: side)
+        }
+    } {
+        didSet {
+            guard let layout = collectionViewLayout as? FlowImageViewLayout else {  return }
+            layout.itemSizeReader = itemSizeReader
+        }
+    }
+    
     // MARK: - 功能
     
-    /// 删除图片之后回调
+    /// 删除图片之后回调（内部已删除该图片，实现该回调来更新对应的外部数据源）
     var didDeleteImage: ((_ index: Int) -> Void)?
+    
     /// 点击添加图片按钮回调
     var willAddImages: ((_ flowImageView: FlowImageView) -> Void)?
+    
     /// 点击图片回调
     var didClickImage: ((_ index: Int) -> Void)?
+    
     /// imageView 如何展示网络图片 url
-    var showWebImage: ((_ imageView: UIImageView, _ url: String) -> Void)?
+    var howShowWebImage: ((_ imageView: UIImageView, _ url: String) -> Void)?
     
     /// 试图使用新的数据源刷新视图
     /// 如果新的数据源数量大于 maxImageCount 则不能刷新视图
@@ -96,32 +114,7 @@ class FlowImageView: UICollectionView {
         autosize ? () : scrollToLastItem()
     }
     
-    // MARK: - life circle (private)
-    
-    /// image 模型
-    enum ImageModel {
-        case image(rawValue: UIImage)
-        case url(rawValue: String)
-    }
-    
-    ///
-    /// 构造器 init
-    ///
-    init(frame: CGRect) {
-        super.init(frame: frame, collectionViewLayout: UICollectionViewFlowLayout())
-        dataSource = self
-        delegate = self
-        register(FlowImageViewCell.self, forCellWithReuseIdentifier: "FlowImageViewCell")
-    }
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        if self.collectionViewLayout is UICollectionViewFlowLayout {} else {
-            self.collectionViewLayout = UICollectionViewFlowLayout()
-        }
-        dataSource = self
-        delegate = self
-        register(FlowImageViewCell.self, forCellWithReuseIdentifier: "FlowImageViewCell")
-    }
+    // MARK: - life
     
     /// 要展示的图片数据源，不包括添加按钮图片
     private var images: [ImageModel] = []
@@ -143,6 +136,35 @@ class FlowImageView: UICollectionView {
         default:
             self.scrollToItem(at: lastIndexPath, at: .right, animated: true)
         }
+    }
+    
+    ///
+    /// 构造器 init
+    ///
+    init(frame: CGRect) {
+        let layout = FlowImageViewLayout()
+        layout.scrollDirection = direction
+        layout.sectionInset = degeInsets
+        layout.minimumLineSpacing = minLineSpacing
+        layout.minimumInteritemSpacing = minItemSpacing
+        layout.itemSizeReader = itemSizeReader
+        super.init(frame: frame, collectionViewLayout: layout)
+        dataSource = self
+        delegate = self
+        register(FlowImageViewCell.self, forCellWithReuseIdentifier: "FlowImageViewCell")
+    }
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        let layout = FlowImageViewLayout()
+        layout.scrollDirection = direction
+        layout.sectionInset = degeInsets
+        layout.minimumLineSpacing = minLineSpacing
+        layout.minimumInteritemSpacing = minItemSpacing
+        layout.itemSizeReader = itemSizeReader
+        collectionViewLayout = layout
+        dataSource = self
+        delegate = self
+        register(FlowImageViewCell.self, forCellWithReuseIdentifier: "FlowImageViewCell")
     }
     
     ///
@@ -182,7 +204,7 @@ extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegateFlo
             case .image(let rawValue):
                 cell.imageView.image = rawValue
             case .url(let rawValue):
-                showWebImage?(cell.imageView, rawValue)
+                howShowWebImage?(cell.imageView, rawValue)
             }
             cell.deleteBtn.isHidden = !deletable
             cell.deleteBtn.setImage(deletableImage, for: .normal)
@@ -204,49 +226,55 @@ extension FlowImageView: UICollectionViewDataSource, UICollectionViewDelegateFlo
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return itemSizeReader(collectionView as! FlowImageView)
-    }
+}
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return degeInsets
+extension FlowImageView {
+    
+    enum ImageModel {
+        case image(rawValue: UIImage)
+        case url(rawValue: String)
     }
+}
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return minLineSpacing
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return minItemSpacing
+extension FlowImageView {
+    
+    class FlowImageViewLayout: UICollectionViewFlowLayout {
+        var itemSizeReader: ((FlowImageView) -> CGSize)?
+        override func prepare() {
+            super.prepare()
+            if let reader = itemSizeReader, let view = collectionView as? FlowImageView {
+                itemSize = reader(view)
+            }
+        }
     }
     
 }
 
-class FlowImageViewCell: UICollectionViewCell {
+extension FlowImageView {
     
-    lazy var imageView: UIImageView = {
-        let view = UIImageView()
-        view.contentMode = .scaleAspectFill
-        view.clipsToBounds = true
-        self.contentView.insertSubview(view, at: 0)
-        return view
-    }()
-    
-    lazy var deleteBtn: UIButton = {
-        let view = UIButton(type: .custom)
-        view.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
-        self.contentView.addSubview(view)
-        return view
-    }()
-    @objc func deleteAction() {
-        deleteHandler?()
-    }
-    var deleteHandler: (() -> Void)?
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        imageView.frame = contentView.bounds
-        deleteBtn.frame = CGRect(x: contentView.bounds.size.width - 30, y: 0, width: 30, height: 30)
+    class FlowImageViewCell: UICollectionViewCell {
+        lazy var imageView: UIImageView = {
+            let view = UIImageView()
+            view.contentMode = .scaleAspectFill
+            view.clipsToBounds = true
+            self.contentView.insertSubview(view, at: 0)
+            return view
+        }()
+        lazy var deleteBtn: UIButton = {
+            let view = UIButton(type: .custom)
+            view.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
+            self.contentView.addSubview(view)
+            return view
+        }()
+        var deleteHandler: (() -> Void)?
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            imageView.frame = contentView.bounds
+            deleteBtn.frame = CGRect(x: contentView.bounds.size.width - 30, y: 0, width: 30, height: 30)
+        }
+        @objc func deleteAction() {
+            deleteHandler?()
+        }
     }
     
 }

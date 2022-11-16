@@ -16,9 +16,7 @@ class FlowImageViewController: UIViewController {
         title = "FlowImageView"
         
         testView.itemSizeReader = { [unowned self] view in
-            print("======== width \(self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right)")
             let side = (self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right - 30) / 4 - 1
-            print("======== side \(side)")
             return CGSize(width: side, height: side)
         }
         
