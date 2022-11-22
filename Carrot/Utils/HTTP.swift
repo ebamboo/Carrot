@@ -191,20 +191,16 @@ private extension HTTP {
         switch result {
         case .success(let responseData):
             // 解析响应对象
-            let success: Bool!
-            let code: Int!
-            let message: String?
-            let data: Any?
-            do {
-                let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as! [String: Any]
-                success = jsonObject["success"] as? Bool
-                code = jsonObject["code"] as? Int
-                message = jsonObject["message"] as? String
-                data = jsonObject["data"]
-            } catch {
+            guard
+                let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                let success = jsonObject["success"] as? Bool,
+                let code = jsonObject["code"] as? Int
+            else {
                 completionHandler(.failure(message: .exceptionData))
                 return
             }
+            let message = jsonObject["message"] as? String
+            let data = jsonObject["data"]
             // 解析 data 数据
             if success {
                 completionHandler(.success(data: data, headers: headers))
