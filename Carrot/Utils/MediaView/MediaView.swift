@@ -9,6 +9,24 @@ import UIKit
 
 extension MediaView {
     
+    var isImageFill: Bool {
+        get {
+            return _isImageFill
+        }
+        set {
+            _isImageFill = newValue
+        }
+    }
+    
+    var isVideoFill: Bool {
+        get {
+            return _isVideoFill
+        }
+        set {
+            _isVideoFill = newValue
+        }
+    }
+    
     var itemList: [MediaBrowserItemModel] {
         get {
             return _itemList
@@ -38,6 +56,8 @@ class MediaView: UIView {
 
     // MARK: - data
     
+    private var _isImageFill = false
+    private var _isVideoFill = false
     private var _itemList: [MediaBrowserItemModel] = []
     private var _currentIndex = 0
     private var _onDidShowMedia: ((_ index: Int) -> Void)?
@@ -107,10 +127,12 @@ extension MediaView: UICollectionViewDataSource {
         switch info {
         case .video:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MediaViewVideoCell", for: indexPath) as! MediaViewVideoCell
+            cell.isFill = _isVideoFill
             cell.mediaInfo = info
             return cell
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MediaViewImageCell", for: indexPath) as! MediaViewImageCell
+            cell.isFill = _isImageFill
             cell.mediaInfo = info
             return cell
         }

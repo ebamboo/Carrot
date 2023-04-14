@@ -9,6 +9,24 @@ import Foundation
 
 @objc class OCMediaView: MediaView {
     
+    @objc var oc_isImageFill: Bool {
+        get {
+            return isImageFill
+        }
+        set {
+            isImageFill = newValue
+        }
+    }
+    
+    @objc var oc_isVideoFill: Bool {
+        get {
+            return isVideoFill
+        }
+        set {
+            isVideoFill = newValue
+        }
+    }
+    
     @objc var oc_itemList: [OCMediaBrowserItemModel] {
         get {
             let list = itemList.map { item -> OCMediaBrowserItemModel in

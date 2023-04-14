@@ -31,6 +31,12 @@ class MediaViewVideoCell: UICollectionViewCell {
     
     // MARK: - data
     
+    var isFill = false {
+        didSet {
+            playerView.bb_videoGravity = isFill ? .aspectFill : .aspectFit
+        }
+    }
+    
     var mediaInfo: MediaBrowserItemModel! {
         didSet {
             switch mediaInfo {

@@ -9,6 +9,10 @@ import UIKit
 
 class MediaViewImageCell: UICollectionViewCell {
     
+    // MARK: - extern
+    
+    var isFill = false
+    
     var mediaInfo: MediaBrowserItemModel! {
         didSet {
             switch mediaInfo {
@@ -31,8 +35,11 @@ class MediaViewImageCell: UICollectionViewCell {
         }
     }
     
+    // MARK: - life
+    
     lazy var imageView: UIImageView = {
         let view = UIImageView()
+        view.contentMode = .scaleAspectFill
         contentView.addSubview(view)
         return view
     }()
@@ -43,6 +50,10 @@ class MediaViewImageCell: UICollectionViewCell {
     }
     
     func resetImageView() {
+        guard !isFill else {
+            imageView.frame = bounds
+            return
+        }
         var size = imageView.image?.size ?? .zero
         if size.width > bounds.width || size.height > bounds.height {
             let imageSize = imageView.image?.size ?? .zero

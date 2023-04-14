@@ -11,7 +11,12 @@ class MediaViewTestViewController: UIViewController {
 
     var itemList: [MediaBrowserItemModel] = []
     
-    @IBOutlet weak var mediaView: MediaView!
+    @IBOutlet weak var mediaView: MediaView! {
+        didSet {
+            mediaView.isVideoFill = true
+            mediaView.isImageFill = true
+        }
+    }
     
     
     
