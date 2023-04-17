@@ -35,7 +35,9 @@ extension MediaView {
             _itemList = newValue
             _currentIndex = 0
             collectionView.reloadData()
-            collectionView.scrollToItem(at: IndexPath(item: _currentIndex, section: 0), at: .centeredHorizontally, animated: false)
+            if !newValue.isEmpty {
+                collectionView.scrollToItem(at: IndexPath(item: _currentIndex, section: 0), at: .centeredHorizontally, animated: false)
+            }
             didEndScrolling()
         }
     }
@@ -88,13 +90,13 @@ class MediaView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(collectionView)
+        insertSubview(collectionView, at: 0)
         clipsToBounds = true
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        addSubview(collectionView)
+        insertSubview(collectionView, at: 0)
         clipsToBounds = true
     }
     
@@ -105,7 +107,9 @@ class MediaView: UIView {
         collectionView.frame = collectionFrame
         let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.itemSize = bounds.size
-        collectionView.scrollToItem(at: IndexPath(item: _currentIndex, section: 0), at: .centeredHorizontally, animated: false)
+        if !_itemList.isEmpty {
+            collectionView.scrollToItem(at: IndexPath(item: _currentIndex, section: 0), at: .centeredHorizontally, animated: false)
+        }
         collectionView.backgroundColor = backgroundColor
     }
     
