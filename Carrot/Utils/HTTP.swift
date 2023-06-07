@@ -23,6 +23,27 @@ protocol HTTPRequest {
 // MARK: - HTTP 公共方法
 
 struct HTTP {
+    ///
+    /// 上传文件数据模型
+    ///
+    /// name 要严格按照后端要求传入，fileName 无特殊要求一般可以随意传入
+    ///
+    /// mimeType 表示文件对应的 MIME Type
+    /// 必要时可使用 Alamofire 中根据拓展名获取 MIME Type 方法
+    /// mp3: "audio/mp3"
+    /// mp4: "video/mp4"
+    /// png: "image/png"
+    /// jpe\jpeg\jpg: "image/jpeg"
+    /// pdf: "application/pdf"
+    /// text\txt: "text/plain"
+    ///
+    enum UploadFileModel {
+        case data(_ data: Data, name: String, fileName: String? = nil, mimeType: String? = nil)
+        case url(_ url: URL, name: String, fileName: String, mimeType: String)
+        case automaticUrl(_ url: URL, name: String)
+    }
+    /// 下载文件存储路径配置
+    typealias DownloadDestination = (_ fileName: String) -> URL
     /// 网络任务结果
     enum Result {
         struct MessageData {
@@ -35,29 +56,6 @@ struct HTTP {
         case failure(message: MessageData)
         case cancel
     }
-    /// 上传文件数据模型
-    struct UploadFileModel {
-        /// 文件资源本身使用 URL 或者 Data 表示
-        /// 两个属性值都为 nil 则不上传该文件
-        /// 文件所在路径（本地）
-        /// 文件对应的二进制数据
-        var url: URL?
-        var data: Data?
-        /// 文件字段名
-        var name: String
-        /// 文件名
-        var fileName: String
-        /// 文件对应的 MIME Type
-        /// mp3: "audio/mp3"
-        /// mp4: "video/mp4"
-        /// png: "image/png"
-        /// jpe\jpeg\jpg: "image/jpeg"
-        /// pdf: "application/pdf"
-        /// text\txt: "text/plain"
-        var mimeType: String
-    }
-    /// 下载文件存储路径配置
-    typealias Destination = (_ fileName: String) -> URL
 }
 
 extension HTTP {
@@ -86,14 +84,14 @@ extension HTTP {
             for (key, value) in request.parameters as! [String: String] {
                 formData.append(value.data(using: .utf8)!, withName: key)
             }
-            for file in files {
-                if file.url != nil {
-                    formData.append(file.url!, withName: file.name, fileName: file.fileName, mimeType: file.mimeType)
-                    continue
-                }
-                if file.data != nil {
-                    formData.append(file.data!, withName: file.name, fileName: file.fileName, mimeType: file.mimeType)
-                    continue
+            files.forEach { file in
+                switch file {
+                case .data(let data, let name, let fileName, let mimeType):
+                    formData.append(data, withName: name, fileName: fileName, mimeType: mimeType)
+                case .url(let url, let name, let fileName, let mimeType):
+                    formData.append(url, withName: name, fileName: fileName, mimeType: mimeType)
+                case .automaticUrl(let url, let name):
+                    formData.append(url, withName: name)
                 }
             }
         }, to: request.url, headers: HTTPHeaders(request.headers))
@@ -108,7 +106,7 @@ extension HTTP {
     @discardableResult static func downloadRequest(
         _ request: HTTPRequest,
         with resumeData: Data? = nil,
-        to destination: Destination? = nil,
+        to destination: DownloadDestination? = nil,
         progressHandler: @escaping (_ progress: Progress) -> Void = { _ in },
         completionHandler: @escaping (_ result: Result) -> Void
     ) -> DownloadRequest {
