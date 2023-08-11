@@ -36,4 +36,3 @@ func modelList<M: Convertible>(_ data: Any?, _ type: M.Type, keys: [String] = []
     guard let list = parseData as? [Any] else { return nil }
     return modelArray(from: list, type)
 }
-

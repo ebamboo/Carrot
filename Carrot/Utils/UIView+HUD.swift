@@ -37,17 +37,17 @@ extension UIView {
         hud.label.text = message
     }
     
-    func stopLoading(with message: String? = nil, completion: (() -> Void)? = nil) {
+    func stopLoading(with message: String? = nil, last: TimeInterval = 1.5, completion: (() -> Void)? = nil) {
         guard let hud = MBProgressHUD.forView(self) else { return }
-        if message == nil {
+        if let message = message, !message.isEmpty {
+            hud.mode = .text
+            hud.label.text = message
+            hud.completionBlock = completion
+            hud.hide(animated: true, afterDelay: last)
+        } else {
             hud.completionBlock = completion
             hud.hide(animated: true, afterDelay: 0)
-            return
         }
-        hud.mode = .text
-        hud.label.text = message
-        hud.completionBlock = completion
-        hud.hide(animated: true, afterDelay: 1.5)
     }
-       
+    
 }

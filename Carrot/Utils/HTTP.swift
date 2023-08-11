@@ -40,7 +40,7 @@ struct HTTP {
     enum UploadFileModel {
         case data(_ data: Data, name: String, fileName: String? = nil, mimeType: String? = nil)
         case url(_ url: URL, name: String, fileName: String, mimeType: String)
-        case automaticUrl(_ url: URL, name: String)
+        case autoUrl(_ url: URL, name: String)
     }
     /// 下载文件存储路径配置
     typealias DownloadDestination = (_ fileName: String) -> URL
@@ -64,10 +64,14 @@ extension HTTP {
         _ request: HTTPRequest,
         completionHandler: @escaping (_ result: Result) -> Void
     ) -> DataRequest {
+#if DEBUG
         printRequest(request)
+#endif
         let task = AF.request(request.url, method: request.method, parameters: request.parameters, encoding: request.encoding, headers: HTTPHeaders(request.headers))
         task.responseData { response in
+#if DEBUG
             printResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result)
+#endif
             parseResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result, completionHandler: completionHandler)
         }
         return task
@@ -79,7 +83,9 @@ extension HTTP {
         progressHandler: @escaping (_ progress: Progress) -> Void = { _ in },
         completionHandler: @escaping (_ result: Result) -> Void
     ) -> UploadRequest {
+#if DEBUG
         printRequest(request)
+#endif
         let task = AF.upload(multipartFormData: { formData in
             for (key, value) in request.parameters as! [String: String] {
                 formData.append(value.data(using: .utf8)!, withName: key)
@@ -90,14 +96,16 @@ extension HTTP {
                     formData.append(data, withName: name, fileName: fileName, mimeType: mimeType)
                 case .url(let url, let name, let fileName, let mimeType):
                     formData.append(url, withName: name, fileName: fileName, mimeType: mimeType)
-                case .automaticUrl(let url, let name):
+                case .autoUrl(let url, let name):
                     formData.append(url, withName: name)
                 }
             }
         }, to: request.url, headers: HTTPHeaders(request.headers))
         task.uploadProgress(closure: progressHandler)
         task.responseData { response in
+#if DEBUG
             printResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result)
+#endif
             parseResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result, completionHandler: completionHandler)
         }
         return task
@@ -110,7 +118,9 @@ extension HTTP {
         progressHandler: @escaping (_ progress: Progress) -> Void = { _ in },
         completionHandler: @escaping (_ result: Result) -> Void
     ) -> DownloadRequest {
+#if DEBUG
         printRequest(request)
+#endif
         let task: DownloadRequest!
         if resumeData == nil {
             task = AF.download(request.url, parameters: request.parameters, headers: HTTPHeaders(request.headers), to:  { temporaryURL, _ in
@@ -137,7 +147,9 @@ extension HTTP {
         }
         task.downloadProgress(closure: progressHandler)
         task.responseData { response in
+#if DEBUG
             printResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result)
+#endif
             parseResponse(headers: response.response?.allHeaderFields as? [String: Any], result: response.result, completionHandler: completionHandler)
         }
         return task
@@ -149,19 +161,16 @@ extension HTTP {
 private extension HTTP {
     /// 打印请求数据
     static func printRequest(_ request: HTTPRequest) {
-        #if DEBUG
-        print("url = \(request.url)")
+        print("url = \(request.method.rawValue) \(request.url)")
         let headersData = try! JSONSerialization.data(withJSONObject: request.headers, options: .prettyPrinted)
         let headersString = String(data: headersData, encoding: .utf8)!
         print("headers = \(headersString)")
         let parametersData = try! JSONSerialization.data(withJSONObject: request.parameters, options: .prettyPrinted)
         let parametersString = String(data: parametersData, encoding: .utf8)!
         print("parameters = \(parametersString)")
-        #endif
     }
     /// 打印响应数据
     static func printResponse(headers: [String: Any]?, result: Swift.Result<Data, AFError>) {
-        #if DEBUG
         if headers == nil {
             print("responseHeaders = null")
         } else {
@@ -182,7 +191,6 @@ private extension HTTP {
         case .failure(let error):
             print("responseObject = \(error.localizedDescription)")
         }
-        #endif
     }
     /// 解析响应结果
     static func parseResponse(headers: [String: Any]?, result: Swift.Result<Data, AFError>, completionHandler: @escaping (_ result: Result) -> Void) {
