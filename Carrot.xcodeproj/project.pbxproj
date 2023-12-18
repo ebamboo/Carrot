@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD5BF22F2B30145500168DD5 /* HTTPConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5BF22E2B30145500168DD5 /* HTTPConvenience.swift */; };
 		AD731C95288E89D6006D6EB8 /* MediaBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C8E288E89D5006D6EB8 /* MediaBrowser.swift */; };
 		AD731C96288E89D6006D6EB8 /* MediaBrowserVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C8F288E89D5006D6EB8 /* MediaBrowserVideoCell.swift */; };
 		AD731C97288E89D6006D6EB8 /* MediaBrowserItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD731C90288E89D5006D6EB8 /* MediaBrowserItemModel.swift */; };
@@ -45,6 +46,7 @@
 		01615ADE153C43FC73D6ECBF /* Pods-Carrot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrot.release.xcconfig"; path = "Target Support Files/Pods-Carrot/Pods-Carrot.release.xcconfig"; sourceTree = "<group>"; };
 		03830C1278EC4B03942288AD /* Pods-Carrot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrot.debug.xcconfig"; path = "Target Support Files/Pods-Carrot/Pods-Carrot.debug.xcconfig"; sourceTree = "<group>"; };
 		6DA2187293594F192E2AFBB9 /* Pods_Carrot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Carrot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD5BF22E2B30145500168DD5 /* HTTPConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPConvenience.swift; sourceTree = "<group>"; };
 		AD731C8E288E89D5006D6EB8 /* MediaBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaBrowser.swift; sourceTree = "<group>"; };
 		AD731C8F288E89D5006D6EB8 /* MediaBrowserVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaBrowserVideoCell.swift; sourceTree = "<group>"; };
 		AD731C90288E89D5006D6EB8 /* MediaBrowserItemModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaBrowserItemModel.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				AD8C5ECB27F692160008420C /* Macros.swift */,
 				ADF36E0D275126AB008BA1DB /* UIView+HUD.swift */,
 				ADF36E0B27512667008BA1DB /* HTTP.swift */,
+				AD5BF22E2B30145500168DD5 /* HTTPConvenience.swift */,
 				ADBBCB9C27F57CB50036AD89 /* Parse.swift */,
 				ADF36E09275125B8008BA1DB /* FlowImageView.swift */,
 			);
@@ -358,6 +361,7 @@
 				AD731C9E288E8ADE006D6EB8 /* OCMediaBrowser.swift in Sources */,
 				ADF36E0E275126AB008BA1DB /* UIView+HUD.swift in Sources */,
 				AD8C5ECC27F692160008420C /* Macros.swift in Sources */,
+				AD5BF22F2B30145500168DD5 /* HTTPConvenience.swift in Sources */,
 				ADF36E0A275125B8008BA1DB /* FlowImageView.swift in Sources */,
 				AD731C95288E89D6006D6EB8 /* MediaBrowser.swift in Sources */,
 				AD731C96288E89D6006D6EB8 /* MediaBrowserVideoCell.swift in Sources */,
@@ -446,7 +450,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -501,7 +505,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -529,7 +533,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -563,7 +567,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
